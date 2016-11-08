@@ -18,8 +18,12 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GnuLK_Util_Vec2D_H
-#define GnuLK_Util_Vec2D_H
+#ifndef GNULK_UTIL_VEC2D_H
+#define GNULK_UTIL_VEC2D_H
+
+#include <GnuLK/Util/Global.h>
+
+GNULK_BEGIN_NAMESPACE
 
 template <class T>
 class Vec2D
@@ -38,13 +42,17 @@ public:
 
 
     T x() const { return m_x; }
+    
     void set_x(const T &x) { m_x = x; }
 
     T y() const { return m_y; }
+    
     void set_y(const T &y) { m_y = y; }
 };
 
 
 typedef Vec2D<double> Point;
 
-#endif // GnuLK_Util_Vec2D_H
+GNULK_END_NAMESPACE
+
+#endif // GNULK_UTIL_VEC2D_H

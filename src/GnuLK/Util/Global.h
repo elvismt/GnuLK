@@ -18,20 +18,20 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GnuLK_Util_Global_H
-#define GnuLK_Util_Global_H
+#ifndef GNULK_UTIL_GLOBAL_H
+#define GNULK_UTIL_GLOBAL_H
 
 #include <cstdint>
 #include <string>
 #include <vector>
 #include <list>
 
-#define GnuLK_Begin_Namespace namespace GnuLK {
+#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
 
-#define GnuLK_End_Namespace } // namespace GnuLK
+#define GNULK_END_NAMESPACE } // namespace GnuLK
 
 
-GnuLK_Begin_Namespace
+GNULK_BEGIN_NAMESPACE
 
 using String = std::string;
 
@@ -41,6 +41,6 @@ using Vector = std::vector<T>;
 template <class T>
 using List = std::list<T>;
 
-GnuLK_End_Namespace
+GNULK_END_NAMESPACE
 
-#endif // GnuLK_Util_Global_H
+#endif // GNULK_UTIL_GLOBAL_H
