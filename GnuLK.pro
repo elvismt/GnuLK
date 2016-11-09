@@ -11,7 +11,17 @@ HEADERS += \
     src/GnuLK/Util/Global.h \
     src/GnuLK/Draw/Point.h \
     src/GnuLK/Draw/Rect.h \
-    src/GnuLK/Draw/Color.h
+    src/GnuLK/Draw/Color.h \
+    src/GnuLK/Util/Object_p.h \
+    src/GnuLK/Util/Object.h \
+    src/GnuLK/Draw/Canvas.h \
+    src/GnuLK/Draw/Canvas_p.h \
+    src/GnuLK/Draw/Window.h \
+    src/GnuLK/Draw/Window_p.h \
+    src/GnuLK/Draw/Graphics.h \
+    src/GnuLK/Draw/Graphics_p.h
 
 SOURCES += \
-    Test.cpp
+    Test.cpp \
+    src/GnuLK/Draw/Window.cpp \
+    src/GnuLK/Draw/Graphics.cpp

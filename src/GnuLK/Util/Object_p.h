@@ -18,33 +18,44 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#ifndef GNULK_UTIL_OBJECT_P_H
+#define GNULK_UTIL_OBJECT_P_H
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
+#include <GnuLK/Util/Global.h>
 
-#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
+#define GNULK_GET_PUBLIC(Class, instance) \
+    (static_cast<Class*>((instance)->__getpubl()))
 
-#define GNULK_END_NAMESPACE } // namespace GnuLK
-
-#define GNULK_EXPORT
-
-#define GNULK_UNUSED(var) (void) var
-
+#define GNULK_PRIVATE(Class) \
+    auto m = GNULK_GET_PUBLIC(Class,this)
 
 GNULK_BEGIN_NAMESPACE
 
-using String = std::string;
+// forward declaration
+class Object;
 
-template <class T>
-using Vector = std::vector<T>;
+class GNULK_EXPORT ObjectPrivate
+{
+public:
 
-template <class T>
-using List = std::list<T>;
+    virtual ~ObjectPrivate()
+    { }
+
+    ObjectPrivate(Object *publ)
+        : m_publ(publ)
+    { }
+
+    inline
+    Object* __getpubl() const {
+        return m_publ;
+    }
+
+
+protected:
+
+    Object *const m_publ;
+};
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_GLOBAL_H
+#endif // GNULK_UTIL_OBJECT_P_H

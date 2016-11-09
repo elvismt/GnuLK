@@ -18,33 +18,40 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#ifndef GNULK_UTIL_WINDOW_H
+#define GNULK_UTIL_WINDOW_H
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
-
-#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
-
-#define GNULK_END_NAMESPACE } // namespace GnuLK
-
-#define GNULK_EXPORT
-
-#define GNULK_UNUSED(var) (void) var
-
+#include <GnuLK/Util/Object.h>
+#include <GnuLK/Draw/Graphics.h>
 
 GNULK_BEGIN_NAMESPACE
 
-using String = std::string;
+class GNULK_EXPORT Window
+    : public Object
+{
+public:
 
-template <class T>
-using Vector = std::vector<T>;
+    Window(const String &title="GnuLK",
+           int width=500, int height=420);
 
-template <class T>
-using List = std::list<T>;
+
+    virtual void show();
+
+    virtual void hide();
+
+    static void run();
+
+
+    virtual void draw(Graphics &gc);
+
+    Rect rect() const;
+
+
+protected:
+
+    Window(ObjectPrivate *priv);
+};
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_GLOBAL_H
+#endif // GNULK_UTIL_WINDOW_H

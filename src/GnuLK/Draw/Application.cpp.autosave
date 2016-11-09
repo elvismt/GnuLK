@@ -18,33 +18,9 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#include "Window.h"
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
+Application::Application()
+{
 
-#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
-
-#define GNULK_END_NAMESPACE } // namespace GnuLK
-
-#define GNULK_EXPORT
-
-#define GNULK_UNUSED(var) (void) var
-
-
-GNULK_BEGIN_NAMESPACE
-
-using String = std::string;
-
-template <class T>
-using Vector = std::vector<T>;
-
-template <class T>
-using List = std::list<T>;
-
-GNULK_END_NAMESPACE
-
-#endif // GNULK_UTIL_GLOBAL_H
+}

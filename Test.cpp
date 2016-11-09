@@ -17,19 +17,29 @@
  * along with GnuLK.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GnuLK/Draw/Rect.h>
+#include <GnuLK/Draw/Window.h>
 using namespace GnuLK;
 
 #include <iostream>
 using namespace std;
 
 
+class Circle: public Window {
+    void draw(Graphics &gc) {
+        cout << rect() << endl;
+        gc.move_to(0,0);
+        gc.line_to(100,100);
+        gc.stroke();
+    }
+};
+
+
 int main()
 {
-    Point p1(3,4), p2(5,6);
+    Circle win;
 
-    cout << "p1: " << p1 << endl;
-    cout << "p1 + p2: " << p1+p2 << endl;
+    win.show();
 
+    Window::run();
     return 0;
 }

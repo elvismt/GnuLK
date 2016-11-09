@@ -18,33 +18,23 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#ifndef GNULK_DRAW_CANVAS_H
+#define GNULK_DRAW_CANVAS_H
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
-
-#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
-
-#define GNULK_END_NAMESPACE } // namespace GnuLK
-
-#define GNULK_EXPORT
-
-#define GNULK_UNUSED(var) (void) var
-
+#include <GnuLK/Util/Object.h>
 
 GNULK_BEGIN_NAMESPACE
 
-using String = std::string;
+class GNULK_EXPORT Canvas
+    : public Object
+{
+protected:
 
-template <class T>
-using Vector = std::vector<T>;
-
-template <class T>
-using List = std::list<T>;
+    Canvas(ObjectPrivate *priv)
+        : Object(priv)
+    { }
+};
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_GLOBAL_H
+#endif // GNULK_DRAW_CANVAS_H
