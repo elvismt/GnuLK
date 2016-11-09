@@ -17,29 +17,19 @@
  * along with GnuLK.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#include <GnuLK/Draw/Rect.h>
+using namespace GnuLK;
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
-
-#define GNULK_BEGIN_NAMESPACE namespace GnuLK {
-
-#define GNULK_END_NAMESPACE } // namespace GnuLK
+#include <iostream>
+using namespace std;
 
 
-GNULK_BEGIN_NAMESPACE
+int main()
+{
+    Point p1(3,4), p2(5,6);
 
-using String = std::string;
+    cout << "p1: " << p1 << endl;
+    cout << "p1 + p2: " << p1+p2 << endl;
 
-template <class T>
-using Vector = std::vector<T>;
-
-template <class T>
-using List = std::list<T>;
-
-GNULK_END_NAMESPACE
-
-#endif // GNULK_UTIL_GLOBAL_H
+    return 0;
+}

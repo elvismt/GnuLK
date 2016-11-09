@@ -9,6 +9,9 @@ INCLUDEPATH += src
 
 HEADERS += \
     src/GnuLK/Util/Global.h \
-    src/GnuLK/Util/Vec2D.h
+    src/GnuLK/Draw/Point.h \
+    src/GnuLK/Draw/Rect.h \
+    src/GnuLK/Draw/Color.h
 
-
+SOURCES += \
+    Test.cpp
