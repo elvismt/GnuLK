@@ -19,9 +19,12 @@ HEADERS += \
     src/GnuLK/Draw/Window.h \
     src/GnuLK/Draw/Window_p.h \
     src/GnuLK/Draw/Graphics.h \
-    src/GnuLK/Draw/Graphics_p.h
+    src/GnuLK/Draw/Graphics_p.h \
+    src/GnuLK/Draw/Figure.h \
+    src/GnuLK/Draw/Figure_p.h
 
 SOURCES += \
     Test.cpp \
     src/GnuLK/Draw/Window.cpp \
-    src/GnuLK/Draw/Graphics.cpp
+    src/GnuLK/Draw/Graphics.cpp \
+    src/GnuLK/Draw/Figure.cpp

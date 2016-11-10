@@ -85,6 +85,12 @@ public:
 
 
     inline
+    bool is_empty() const {
+        return ! (m_w > 0.0 && m_h > 0.0);
+    }
+
+
+    inline
     bool contains(const Point &p) const {
         if (p.x() < left() || p.x() >= right()) return false;
         if (p.y() <= top() || p.y() > bottom()) return false;

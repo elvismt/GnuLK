@@ -83,10 +83,52 @@ void Graphics::fill_preserve() {
 }
 
 
+void Graphics::clip() {
+    GNULK_PUBLIC(Graphics);
+    cairo_clip(m->cr);
+}
+
+
+void Graphics::clip_preserve() {
+    GNULK_PUBLIC(Graphics);
+    cairo_clip_preserve(m->cr);
+}
+
+
 void Graphics::set_color(const Color &c) {
     GNULK_PUBLIC(Graphics);
     cairo_set_source_rgba(m->cr,
         c.red_f(), c.green_f(), c.blue_f(), c.alpha_f());
+}
+
+
+void Graphics::set_width(double w) {
+    GNULK_PUBLIC(Graphics);
+    cairo_set_line_width(m->cr, w);
+}
+
+
+void Graphics::save() {
+    GNULK_PUBLIC(Graphics);
+    cairo_save(m->cr);
+}
+
+
+void Graphics::restore() {
+    GNULK_PUBLIC(Graphics);
+    cairo_restore(m->cr);
+}
+
+
+void Graphics::translate(double dx, double dy) {
+    GNULK_PUBLIC(Graphics);
+    cairo_translate(m->cr, dx, dy);
+}
+
+
+void Graphics::rotate(double a) {
+    GNULK_PUBLIC(Graphics);
+    cairo_rotate(m->cr, a);
 }
 
 
@@ -99,6 +141,25 @@ void Graphics::move_to(double x, double y) {
 void Graphics::line_to(double x, double y) {
     GNULK_PUBLIC(Graphics);
     cairo_line_to(m->cr, x, y);
+}
+
+
+void Graphics::rect(double x, double y, double w, double h) {
+    GNULK_PUBLIC(Graphics);
+    cairo_rectangle(m->cr, x, y, w, h);
+}
+
+
+void Graphics::arc(double x, double y, double r, double a1, double a2) {
+    GNULK_PUBLIC(Graphics);
+    cairo_arc(m->cr, x, y, r, a1, a2);
+}
+
+
+void Graphics::circle(double x, double y, double r) {
+    GNULK_PUBLIC(Graphics);
+    cairo_move_to(m->cr, x+r, y);
+    cairo_arc(m->cr, x, y, r, 0.0, 6.28318530718);
 }
 
 GNULK_END_NAMESPACE

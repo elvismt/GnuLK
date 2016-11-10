@@ -54,7 +54,26 @@ public:
 
     void fill_preserve();
 
+    void clip();
+
+    void clip_preserve();
+
     void set_color(const Color &c);
+
+    void set_width(double w);
+
+    void save();
+
+    void restore();
+
+    void translate(double dx, double dy);
+
+    inline
+    void translate(const Point &p) {
+        translate(p.x(), p.y());
+    }
+
+    void rotate(double a);
 
     void move_to(double x, double y);
 
@@ -68,6 +87,27 @@ public:
     inline
     void line_to(const Point &p) {
         line_to(p.x(), p.y());
+    }
+
+    void rect(double x, double y, double w, double h);
+
+    inline
+    void rect(const Rect &r) {
+        rect(r.x(), r.y(), r.width(), r.height());
+    }
+
+    void arc(double x, double y, double r, double a1, double a2);
+
+    inline
+    void arc(const Point &c, double r, double a1, double a2) {
+        arc(c.x(), c.y(), r, a1, a2);
+    }
+
+    void circle(double x, double y, double r);
+
+    inline
+    void circle(const Point &c, double r) {
+        circle(c.x(), c.y(), r);
     }
 };
 

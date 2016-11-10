@@ -36,6 +36,7 @@ public:
 
 
     enum Value: uint32_t {
+        NONE          = 0x00000000,
         WHITE         = 0xFFFFFFFF,
         RED           = 0xFF0000FF,
         GREEN         = 0x00FF00FF,
@@ -52,6 +53,11 @@ public:
 
     inline Color(int r, int g, int b, int a=255)
         { set(r, g, b, a); }
+
+
+    inline bool is_null() const {
+        return alpha() == 0U;
+    }
 
 
     inline
@@ -80,9 +86,9 @@ public:
 
     uint32_t red() const { return (m_value >> 24) & 0xFF; }
 
-    uint32_t blue() const { return (m_value >> 16) & 0xFF; }
+    uint32_t green() const { return (m_value >> 16) & 0xFF; }
 
-    uint32_t green() const { return (m_value >> 8) & 0xFF; }
+    uint32_t blue() const { return (m_value >> 8) & 0xFF; }
 
     uint32_t alpha() const { return (m_value) & 0xFF; }
 

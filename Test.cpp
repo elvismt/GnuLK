@@ -25,10 +25,19 @@ using namespace std;
 
 
 class Circle: public Window {
-    void draw(Graphics &gc) {
-        cout << rect() << endl;
-        gc.move_to(0,0);
-        gc.line_to(100,100);
+    void draw(Graphics &gc)
+    {
+        Rect rec = rect();
+        gc.set_color(Color::WHITE);
+        gc.rect(rec);
+        gc.fill();
+
+        gc.set_width(3.0);
+        gc.circle(rec.center(), 100.0);
+
+        gc.set_color(Color::GREEN);
+        gc.fill_preserve();
+        gc.set_color(Color::BLUE);
         gc.stroke();
     }
 };
