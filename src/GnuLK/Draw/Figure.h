@@ -35,8 +35,10 @@ class GNULK_EXPORT Figure
 {
 public:
 
-    Figure(const String &title);
+    Figure(const String &title="GnuLK");
 
+
+    String title() const;
 
     List<FigureScale*>& scales();
 

@@ -18,56 +18,35 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_WINDOW_H
-#define GNULK_UTIL_WINDOW_H
+#ifndef GNULK_DRAW_FIGUREVIEW_H
+#define GNULK_DRAW_FIGUREVIEW_H
 
-#include <GnuLK/Util/Object.h>
-#include <GnuLK/Draw/Graphics.h>
+#include <GnuLK/Draw/Window.h>
+#include <GnuLK/Draw/Figure.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT Window
-    : public Object
+class GNULK_EXPORT FigureView
+    : public Window
 {
 public:
 
+    FigureView(const String &title="GnuLK",
+               int width=500, int height=420);
 
-    enum MouseButton: uint32_t {
-        LEFT_BUTTON,
-        RIGHT_BUTTON
-    };
-
-
-    Window(const String &title="GnuLK",
-           int width=500, int height=420);
-
-
-    Rect rect() const;
-
-
-    virtual void show();
-
-    virtual void hide();
-
-    static void run();
-
-
-    virtual void draw(Graphics &gc);
-
-    virtual void mouse_press(MouseButton button, const Point &pos);
-
-    virtual void mouse_move(const Point &pos);
-
-    virtual void mouse_release(MouseButton button, const Point &pos);
+    Figure* figure() const;
 
 
 protected:
 
-    Window(ObjectPrivate *priv,
-           const String &title,
-           int width, int height);
+    virtual void draw(Graphics &gc);
+
+    FigureView(ObjectPrivate *priv,
+               Figure *figure,
+               const String &title,
+               int width, int height);
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_WINDOW_H
+#endif // GNULK_DRAW_FIGUREVIEW_H

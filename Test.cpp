@@ -17,37 +17,18 @@
  * along with GnuLK.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GnuLK/Draw/Window.h>
+#include <GnuLK/Draw/FigureView.h>
 using namespace GnuLK;
 
 #include <iostream>
 using namespace std;
 
 
-class Circle: public Window {
-    void draw(Graphics &gc)
-    {
-        Rect rec = rect();
-        gc.set_color(Color::WHITE);
-        gc.rect(rec);
-        gc.fill();
-
-        gc.set_width(3.0);
-        gc.circle(rec.center(), 100.0);
-
-        gc.set_color(Color::GREEN);
-        gc.fill_preserve();
-        gc.set_color(Color::BLUE);
-        gc.stroke();
-    }
-};
-
-
 int main()
 {
-    Circle win;
+    FigureView view;
 
-    win.show();
+    view.show();
 
     Window::run();
     return 0;

@@ -31,6 +31,29 @@ Figure::Figure(const String &title)
 }
 
 
+String Figure::title() const {
+    GNULK_PUBLIC(const Figure);
+    return m->title;
+}
+
+
+List<FigureScale*>& Figure::scales() {
+    GNULK_PUBLIC(Figure);
+    return m->scales;
+}
+
+
+const List<FigureScale*>& Figure::scales() const {
+    GNULK_PUBLIC(const Figure);
+    return m->scales;
+}
+
+
+FigureScale* Figure::scale(const String &title) {
+    // TODO
+}
+
+
 void Figure::append(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
     m->scales.push_back(scale);
@@ -38,22 +61,39 @@ void Figure::append(FigureScale *scale) {
 
 
 void Figure::detach(FigureScale *scale) {
+    GNULK_PUBLIC(Figure);
+    auto iter = m->scales.begin();
+    auto end = m->scales.end();
 
+    while (iter != end) {
+        if (*iter == scale) {
+            iter = m->scales.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
 }
 
 
 void Figure::draw(const Rect &rect, Graphics &gc) {
     GNULK_PUBLIC(Figure);
 
+    if (rect.is_empty()) {
+        return;
+    }
+
     gc.save();
     gc.new_path();
     gc.rect(rect);
-    gc.clip_preserve();
 
     if (m->back_color.is_null() == false) {
+        gc.clip_preserve();
         gc.set_color(m->back_color);
         gc.fill();
+    } else {
+        gc.clip();
     }
+
 
     gc.restore();
 }
