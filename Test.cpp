@@ -18,6 +18,7 @@
  */
 
 #include <GnuLK/Draw/FigureView.h>
+#include <GnuLK/Util/Array_p.h>
 using namespace GnuLK;
 
 #include <iostream>
@@ -27,6 +28,8 @@ using namespace std;
 int main()
 {
     FigureView view;
+
+    array_storage<int> x(3);
 
     view.show();
 

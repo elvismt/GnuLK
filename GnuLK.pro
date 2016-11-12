@@ -23,7 +23,9 @@ HEADERS += \
     src/GnuLK/Draw/Figure.h \
     src/GnuLK/Draw/Figure_p.h \
     src/GnuLK/Draw/FigureView.h \
-    src/GnuLK/Draw/FigureView_p.h
+    src/GnuLK/Draw/FigureView_p.h \
+    src/GnuLK/Util/Math.h \
+    src/GnuLK/Util/Array_p.h
 
 SOURCES += \
     Test.cpp \

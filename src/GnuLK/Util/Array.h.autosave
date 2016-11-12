@@ -18,41 +18,49 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_GLOBAL_H
-#define GNULK_UTIL_GLOBAL_H
+#ifndef GNULK_UTIL_ARRAY_H
+#define GNULK_UTIL_ARRAY_H
 
-#include <cstdint>
-#include <string>
-#include <vector>
-#include <list>
-
-#define GNULK_BEGIN_NAMESPACE \
-    namespace GnuLK {
-
-#define GNULK_END_NAMESPACE \
-    } // namespace GnuLK
-
-#define GNULK_BEGIN_MATH_NAMESPACE \
-    namespace GnuLK { namespace Math {
-
-#define GNULK_END_MATH_NAMESPACE \
-    }} // namespace GnuLK::Math
-
-#define GNULK_EXPORT
-
-#define GNULK_UNUSED(var) (void) var
-
+#include <GnuLK/Util/Math.h>
 
 GNULK_BEGIN_NAMESPACE
 
-using String = std::string;
+/* Base class template for the GnuLK's public arrays */
+template <int D, class T=double> class Array {};
+
 
 template <class T>
-using Vector = std::vector<T>;
+class Array<0,T>
+{
+public:
 
-template <class T>
-using List = std::list<T>;
+    Array(uint64_t shape0)
+        : m_shape{0UL, 0UL}
+        , m_ref_count{1UL}
+        , m_buffer{nullptr}
+    {
+        resize(shape0);
+    }
+
+    Array(uint64_t shape0, uint64_t shape1)
+        : m_shape{0UL, 0UL}
+        , m_ref_count{1UL}
+        , m_buffer{nullptr}
+    {
+        resize(shape0, shape1);
+    }
+    
+    
+    ~Array()
+
+
+private:
+
+    uint64_t m_shape[2];
+    uint64_t m_ref_count;
+    T *m_buffer;
+};
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_GLOBAL_H
+#endif // GNULK_UTIL_ARRAY_H
