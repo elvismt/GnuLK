@@ -18,42 +18,37 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGURE_P_H
-#define GNULK_DRAW_FIGURE_P_H
+#ifndef GNULK_XYSERIES_H
+#define GNULK_XYSERIES_H
 
-#include <GnuLK/Draw/Figure.h>
+#include <GnuLK/Draw/FigureItem.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class FigurePrivate
-    : public ObjectPrivate
+class GNULK_EXPORT XYSeries
+   : public FigureItem
 {
 public:
 
-    FigurePrivate(Figure *publ)
-        : ObjectPrivate(publ)
-        , name("Figure")
-        , fill_color(Color::WHITE)
-        , stroke_color(Color::NONE)
-        , error_message_color(Color::RED)
-        , font_size(11)
-        , on_error(false)
-    { }
+    XYSeries(const Vector<double> &x,
+             const Vector<double> &y,
+             const String &name="series");
 
-    void update_layout();
+    virtual Rect figure_rect() const;
+    virtual Rect data_rect() const;
+
+    virtual void set_data(const Vector<double> &x,
+                          const Vector<double> &y);
 
 
-    String name;
-    Color fill_color;
-    Color stroke_color;
-    Color error_message_color;
-    double font_size;
-    bool on_error;
-    double layout_rows;
-    double layout_cols;
-    List<FigureScale*> scale_list;
+protected:
+
+   virtual void draw(Graphics &gc);
+
+   XYSeries(ObjectPrivate *priv)
+       : FigureItem(priv) {}
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_DRAW_FIGURE_P_H
+#endif // GNULK_XYSERIES_H

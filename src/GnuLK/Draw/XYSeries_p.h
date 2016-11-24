@@ -18,37 +18,51 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGUREVIEW_H
-#define GNULK_DRAW_FIGUREVIEW_H
+#ifndef GNULK_XYSERIES_P_H
+#define GNULK_XYSERIES_P_H
 
-#include <GnuLK/Draw/Window.h>
-#include <GnuLK/Draw/Figure.h>
-#include <GnuLK/Draw/XYScale.h>
 #include <GnuLK/Draw/XYSeries.h>
+#include <GnuLK/Draw/FigureItem_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT FigureView
-    : public Window
+class XYSeriesPrivate
+   : public FigureItemPrivate
 {
 public:
 
-    FigureView(const String &title="GnuLK",
-               int width=500, int height=420);
+    XYSeriesPrivate(XYSeries *publ)
+       : FigureItemPrivate(publ)
+       , line_color(Color::BLACK)
+       , line_width(1.2)
+       , point_stroke_color(Color::BLUE)
+       , point_fill_color(Color::RED)
+       , point_radius(3.0)
+       , point_stroke_width(1.2)
+    { }
 
-    Figure* figure() const;
+
+    void check_ranges();
+    void draw_line(Graphics &gc);
+    void draw_circles(Graphics &gc);
 
 
-protected:
+    Color line_color;
+    double line_width;
 
-    virtual void draw(Graphics &gc);
+    Color point_stroke_color;
+    Color point_fill_color;
+    double point_radius;
+    double point_stroke_width;
 
-    FigureView(ObjectPrivate *priv,
-               Figure *figure,
-               const String &title,
-               int width, int height);
+    Vector<double> x;
+    Vector<double> y;
+    uint32_t point_count;
+
+    double x_min, x_max;
+    double y_min, y_max;
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_DRAW_FIGUREVIEW_H
+#endif // GNULK_XYSERIES_P_H

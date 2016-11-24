@@ -57,6 +57,8 @@ public:
                   const Rect &size=Rect(600,500));
 
 
+    virtual void inform_error();
+
 protected:
 
     Figure(ObjectPrivate *priv)

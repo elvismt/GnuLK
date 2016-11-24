@@ -84,23 +84,24 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
         return;
     }
 
+    m->on_error = false;
     gc.save();
+    gc.set_font_size(m->font_size);
     gc.new_path();
     gc.rect(rect);
+    gc.clip();
 
     /* if required fill the background with color */
-    if (m->back_color.is_null() == false) {
-        gc.clip_preserve();
-        gc.set_color(m->back_color);
-        gc.fill();
-    } else {
-        gc.clip();
-    }
+    gc.draw_rect(rect, m->fill_color, m->stroke_color);
 
     /* draw all of the item's contents */
     double cell_width = rect.width() / m->layout_cols;
     double cell_height = rect.height() / m->layout_rows;
+
     for (auto scale : m->scale_list) {
+        if (m->on_error == true) {
+            break;
+        }
         if (scale->visible()) {
             Rect scale_rect = scale->layout_rect();
             Rect position_rect(
@@ -111,6 +112,12 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
             );
             scale->draw(position_rect, gc);
         }
+    }
+
+    if (m->on_error == true) {
+        gc.draw_rect(rect, m->fill_color, m->stroke_color);
+        gc.set_color(m->error_message_color);
+        gc.draw_text(40, 40, "Numeric error on item");
     }
 
     gc.restore();
@@ -129,6 +136,12 @@ void FigurePrivate::update_layout() {
             layout_rows = scale_rect.bottom();
         }
     }
+}
+
+
+void Figure::inform_error() {
+    GNULK_PUBLIC(Figure);
+    m->on_error = true;
 }
 
 GNULK_END_NAMESPACE

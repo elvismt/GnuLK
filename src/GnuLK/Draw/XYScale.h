@@ -40,6 +40,9 @@ public:
 
    virtual void rescale();
 
+    void set_x_range(double min, double max);
+    void set_y_range(double min, double max);
+
 
 protected:
 

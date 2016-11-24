@@ -162,4 +162,75 @@ void Graphics::circle(double x, double y, double r) {
     cairo_arc(m->cr, x, y, r, 0.0, 6.28318530718);
 }
 
+
+static inline
+void try_fill_stroke (cairo_t *cr, const Color &fill,
+                             const Color &stroke)
+{
+    if (!fill.is_null() && !stroke.is_null())
+    {
+        /* in case both colors are active fill background and
+         * then stroke the border */
+        cairo_set_source_rgba(cr, fill.red_f(),
+            fill.green_f(), fill.blue_f(), fill.alpha_f());
+        cairo_fill_preserve(cr);
+        cairo_set_source_rgba(cr, stroke.red_f(),
+            stroke.green_f(), stroke.blue_f(), stroke.alpha_f());
+        cairo_stroke(cr);
+    }
+    else if (!fill.is_null())
+    {
+        /* in case only the fill color is active, only fill */
+        cairo_set_source_rgba(cr, fill.red_f(),
+            fill.green_f(), fill.blue_f(), fill.alpha_f());
+        cairo_fill(cr);
+    }
+    else
+    {
+        /* in case only the stroke color is active, only stroke */
+        cairo_set_source_rgba(cr, stroke.red_f(),
+            stroke.green_f(), stroke.blue_f(), stroke.alpha_f());
+        cairo_stroke(cr);
+    }
+}
+
+
+void Graphics::draw_circle(double x, double y, double r,
+                           const Color &fill, const Color &stroke)
+{
+    GNULK_PUBLIC(Graphics);
+    if (!fill.is_null() || !stroke.is_null()) {
+        cairo_new_path(m->cr);
+        cairo_move_to(m->cr, x+r, y);
+        cairo_arc(m->cr, x, y, r, 0.0, 6.28318530718);
+        try_fill_stroke(m->cr, fill, stroke);
+    }
+}
+
+
+void Graphics::draw_rect(const Rect &rect, const Color &fill,
+                         const Color &stroke)
+{
+    GNULK_PUBLIC(Graphics);
+    if (!fill.is_null() || !stroke.is_null()) {
+        cairo_new_path(m->cr);
+        cairo_rectangle(m->cr, rect.x(), rect.y(),
+            rect.width(), rect.height());
+        try_fill_stroke(m->cr, fill, stroke);
+    }
+}
+
+
+void Graphics::draw_text(double x, double y, const char *txt) {
+    GNULK_PUBLIC(Graphics);
+    cairo_move_to(m->cr, x, y);
+    cairo_show_text(m->cr, txt);
+}
+
+
+void Graphics::set_font_size(double font_size) {
+    GNULK_PUBLIC(Graphics);
+    cairo_set_font_size(m->cr, font_size);
+}
+
 GNULK_END_NAMESPACE

@@ -93,6 +93,7 @@ void FigureScale::add(FigureItem *item) {
     GNULK_PUBLIC(FigureScale);
     m->item_list.push_back(item);
     item->set_scale(this);
+    rescale();
 }
 
 void FigureScale::remove(FigureItem *item) {
@@ -116,12 +117,7 @@ void FigureScale::draw(const Rect &rect, Graphics &gc) {
     if (rect.is_empty()) {
         return;
     }
-    if (!m->back_color.is_null()) {
-        gc.set_color(m->back_color);
-        gc.new_path();
-        gc.rect(rect);
-        gc.fill();
-    }
+    gc.draw_rect(rect, m->fill_color, m->stroke_color);
     for (auto item : m->item_list) {
         if (item->visible()) {
             item->draw(gc);

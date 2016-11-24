@@ -105,10 +105,32 @@ public:
 
     void circle(double x, double y, double r);
 
+    void draw_circle(double x, double y, double r,
+                     const Color &fill, const Color &stroke);
+
     inline
     void circle(const Point &c, double r) {
         circle(c.x(), c.y(), r);
     }
+
+    void draw_rect(const Rect &rect, const Color &fill,
+                   const Color &stroke);
+
+    void draw_text(double x, double y, const char *txt);
+
+    inline void draw_text(const Point &pos, const char *txt) {
+        draw_text(pos.x(), pos.y(), txt);
+    }
+
+    inline void draw_text(double x, double y, const String &txt) {
+        draw_text(x, y, txt.c_str());
+    }
+
+    inline void draw_text(const Point &pos, const String &txt) {
+        draw_text(pos.x(), pos.y(), txt.c_str());
+    }
+
+    void set_font_size(double font_size);
 };
 
 GNULK_END_NAMESPACE

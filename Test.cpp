@@ -23,6 +23,7 @@
 using namespace GnuLK;
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 
@@ -30,6 +31,22 @@ int main()
 {
     FigureView view;
     XYScale scale;
+
+    Vector<double> x, ys, yc;
+    const uint32_t npts = 60;
+    const double step = 2.0*M_PI/npts;
+    for (uint32_t k=0; k<npts; ++k) {
+        double t = k * step;
+        x.push_back(t);
+        ys.push_back(4*sin(4*t) + t*t);
+        yc.push_back(4*cos(4*t) + 0.4*t*t);
+    }
+
+    XYSeries sine_series(x, ys);
+    scale.add(sine_series);
+
+    XYSeries cossine_series(x, yc);
+    scale.add(cossine_series);
 
     view.figure()->add(scale);
     view.show();

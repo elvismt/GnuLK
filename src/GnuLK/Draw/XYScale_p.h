@@ -35,8 +35,12 @@ public:
        : FigureScalePrivate(publ)
        , left_margin(20), right_margin(20)
        , top_margin(20), bottom_margin(20)
-       , x_padding(0), y_padding(0)
+       , x_padding(0.02), y_padding(0.02)
     { }
+
+
+    void apply_padding();
+
 
     double left_margin, right_margin;
     double top_margin, bottom_margin;
