@@ -18,52 +18,51 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGURE_H
-#define GNULK_DRAW_FIGURE_H
+#ifndef GNULK_FIGUREITEM_H
+#define GNULK_FIGUREITEM_H
 
-#include <GnuLK/Draw/Graphics.h>
+#include <GnuLK/Util/Object.h>
+#include <GnuLK/Draw/Rect.h>
 
 GNULK_BEGIN_NAMESPACE
-class FigureItem;
+class Figure;
 class FigureScale;
+class Graphics;
 GNULK_END_NAMESPACE
 
+
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT Figure
+class GNULK_EXPORT FigureItem
     : public Object
 {
 public:
 
-    Figure(const String &name="GnuLK");
+    Figure* figure() const;
+    FigureScale* scale() const;
 
     String name() const;
     void set_name(const String &name);
 
-    List<FigureScale*>& scale_list();
-    const List<FigureScale*>& scale_list() const;
-    FigureScale* scale(const String &name);
+    bool visible() const;
+    void set_visible(bool visible);
 
-    virtual void add(FigureScale *item);
-    inline void add(FigureScale &scale) { add(&scale); }
-
-    virtual void remove(FigureScale *scale);
-    inline void remove(FigureScale &scale) { remove(&scale); }
-    inline void remove(const String &title) { remove(scale(title)); }
-
-    virtual void draw(const Rect &rect, Graphics &gc);
-
-    void save_png(const String &filename,
-                  const Rect &size=Rect(600,500));
+    virtual Rect figure_rect() const = 0;
+    virtual Rect data_rect() const = 0;
 
 
 protected:
 
-    Figure(ObjectPrivate *priv)
-        : Object(priv)
-    { }
+    friend class FigureScale;
+
+    virtual void set_scale(FigureScale *scale);
+
+    virtual void draw(Graphics &gc) = 0;
+
+    FigureItem(ObjectPrivate *priv)
+        : Object(priv) {}
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_DRAW_FIGURE_H
+#endif // GNULK_FIGUREITEM_H

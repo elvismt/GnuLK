@@ -19,6 +19,7 @@
  */
 
 #include <GnuLK/Draw/FigureScale_p.h>
+#include <GnuLK/Draw/FigureItem.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -65,7 +66,14 @@ void FigureScale::set_layout_rect(const Rect &rect) {
 
 
 FigureItem* FigureScale::item(const String &name) const {
-    // TODO
+    GNULK_PUBLIC(FigureScale);
+    for (auto item : m->item_list) {
+        if (item->name() == name) {
+            return item;
+        }
+    }
+    // not found
+    return nullptr;
 }
 
 
@@ -82,23 +90,34 @@ const List<FigureItem*>& FigureScale::item_list() const {
 
 
 void FigureScale::add(FigureItem *item) {
-    // TODO
+    GNULK_PUBLIC(FigureScale);
+    m->item_list.push_back(item);
+    item->set_scale(this);
 }
 
 void FigureScale::remove(FigureItem *item) {
-    // TODO
+    GNULK_PUBLIC(FigureScale);
+    m->item_list.remove(item);
+    item->set_scale(nullptr);
 }
 
 
 void FigureScale::set_figure(Figure *figure) {
     GNULK_PUBLIC(FigureScale);
     m->figure = figure;
-    // TODO
+    for (auto item : m->item_list) {
+        item->set_scale(this);
+    }
 }
 
 
 void FigureScale::draw(const Rect &rect, Graphics &gc) {
-    // TODO
+    GNULK_PUBLIC(FigureScale);
+    for (auto item : m->item_list) {
+        if (item->visible()) {
+            item->draw(gc);
+        }
+    }
 }
 
 GNULK_END_NAMESPACE
