@@ -22,36 +22,83 @@
 
 GNULK_BEGIN_NAMESPACE
 
+Figure* FigureScale::figure() const {
+    GNULK_PUBLIC(const FigureScale);
+    return m->figure;
+}
+
+
+String FigureScale::name() const {
+    GNULK_PUBLIC(const FigureScale);
+    return m->name;
+}
+
+
+void FigureScale::set_name(const String &name) {
+    GNULK_PUBLIC(FigureScale);
+    m->name = name;
+}
+
+
+bool FigureScale::visible() const {
+    GNULK_PUBLIC(const FigureScale);
+    return m->visible;
+}
+
+
+void FigureScale::set_visible(bool visible) {
+    GNULK_PUBLIC(FigureScale);
+    m->visible = visible;
+}
+
+
 Rect FigureScale::layout_rect() const {
     GNULK_PUBLIC(const FigureScale);
     return m->layout_rect;
 }
 
 
-void FigureScale::set_layout_rect(const Rect &layout_rect) {
+void FigureScale::set_layout_rect(const Rect &rect) {
     GNULK_PUBLIC(FigureScale);
-    m->layout_rect = layout_rect;
+    m->layout_rect = rect;
 }
 
 
-Rect FigureScale::figure_rect() const {
+FigureItem* FigureScale::item(const String &name) const {
+    // TODO
+}
+
+
+List<FigureItem*>& FigureScale::item_list() {
+    GNULK_PUBLIC(FigureScale);
+    return m->item_list;
+}
+
+
+const List<FigureItem*>& FigureScale::item_list() const {
     GNULK_PUBLIC(const FigureScale);
-    return m->position_rect;
+    return m->item_list;
+}
+
+
+void FigureScale::add(FigureItem *item) {
+    // TODO
+}
+
+void FigureScale::remove(FigureItem *item) {
+    // TODO
 }
 
 
 void FigureScale::set_figure(Figure *figure) {
     GNULK_PUBLIC(FigureScale);
     m->figure = figure;
-    for (auto child : m->children) {
-        child->set_parent(this);
-    }
+    // TODO
 }
 
 
-void FigureScale::set_position_rect(const Rect &position_rect) {
-    GNULK_PUBLIC(FigureScale);
-    m->position_rect = position_rect;
+void FigureScale::draw(const Rect &rect, Graphics &gc) {
+    // TODO
 }
 
 GNULK_END_NAMESPACE

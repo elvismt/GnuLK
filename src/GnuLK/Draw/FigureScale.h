@@ -21,27 +21,50 @@
 #ifndef GNULK_FIGURESCALE_H
 #define GNULK_FIGURESCALE_H
 
+#include <GnuLK/Util/Object.h>
 #include <GnuLK/Draw/Rect.h>
-#include <GnuLK/Draw/FigureBaseItem.h>
-
 
 GNULK_BEGIN_NAMESPACE
 class Figure;
+class FigureItem;
+class Graphics;
 GNULK_END_NAMESPACE
 
 
 GNULK_BEGIN_NAMESPACE
 
 class GNULK_EXPORT FigureScale
-    : public FigureBaseItem
+    : public Object
 {
 public:
 
+    Figure* figure() const;
+
+    String name() const;
+    void set_name(const String &name);
+
+    bool visible() const;
+    void set_visible(bool visible);
+
     Rect layout_rect() const;
+    void set_layout_rect(const Rect &rect);
 
-    void set_layout_rect(const Rect &layout_rect);
+    FigureItem* item(const String &name) const;
+    List<FigureItem*>& item_list();
+    const List<FigureItem*>& item_list() const;
 
-    Rect figure_rect() const;
+    virtual void add(FigureItem *item);
+    inline void add(FigureItem &item) { add(&item); }
+
+    virtual void remove(FigureItem *item);
+    inline void remove(FigureItem &item) { add(&item); }
+    inline void remove(const String &name) { add(item(name)); }
+
+    virtual Rect figure_rect() const = 0;
+    virtual Rect data_rect() const = 0;
+
+    virtual Point map(const Point &p) const = 0;
+    virtual Point unmap(const Point &p) const = 0;
 
     virtual void rescale() = 0;
 
@@ -52,10 +75,10 @@ protected:
 
     virtual void set_figure(Figure *figure);
 
-    void set_position_rect(const Rect &position_rect);
+    virtual void draw(const Rect &rect, Graphics &gc);
 
     FigureScale(ObjectPrivate *priv)
-        : FigureBaseItem(priv) {}
+        : Object(priv) {}
 };
 
 GNULK_END_NAMESPACE

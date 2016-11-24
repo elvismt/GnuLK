@@ -77,9 +77,7 @@ Window::Window(ObjectPrivate *priv,
 
 Window::Window(const String &title, int width, int height)
     : Window(new WindowPrivate(this), title, width, height)
-{
-    GNULK_PUBLIC(Window);
-}
+{ }
 
 
 void Window::show() {

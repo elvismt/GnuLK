@@ -21,11 +21,10 @@
 #ifndef GNULK_DRAW_FIGURE_H
 #define GNULK_DRAW_FIGURE_H
 
-#include <GnuLK/Util/Object.h>
 #include <GnuLK/Draw/Graphics.h>
 
 GNULK_BEGIN_NAMESPACE
-class FigureBaseItem;
+class FigureItem;
 class FigureScale;
 GNULK_END_NAMESPACE
 
@@ -38,17 +37,12 @@ public:
 
     Figure(const String &name="GnuLK");
 
-
     String name() const;
     void set_name(const String &name);
 
-
-    List<FigureScale*>& scales();
-    const List<FigureScale*>& scales() const;
-
-
+    List<FigureScale*>& scale_list();
+    const List<FigureScale*>& scale_list() const;
     FigureScale* scale(const String &name);
-
 
     virtual void add(FigureScale *item);
     inline void add(FigureScale &scale) { add(&scale); }
@@ -57,12 +51,10 @@ public:
     inline void remove(FigureScale &scale) { remove(&scale); }
     inline void remove(const String &title) { remove(scale(title)); }
 
-
     virtual void draw(const Rect &rect, Graphics &gc);
 
     void save_png(const String &filename,
                   const Rect &size=Rect(600,500));
-
 
 protected:
 

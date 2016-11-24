@@ -22,23 +22,28 @@
 #define GNULK_FIGURESCALE_P_H
 
 #include <GnuLK/Draw/FigureScale.h>
-#include <GnuLK/Draw/FigureBaseItem_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
 class FigureScalePrivate
-    : public FigureBaseItemPrivate
+    : public ObjectPrivate
 {
 public:
 
     FigureScalePrivate(FigureScale *publ)
-        : FigureBaseItemPrivate(publ)
+        : ObjectPrivate(publ)
+        , figure(nullptr)
+        , name("scale")
+        , visible(true)
         , layout_rect(0,0,1,1)
     { }
 
 
+    Figure *figure;
+    String name;
+    bool visible;
     Rect layout_rect;
-    Rect position_rect;
+    List<FigureItem*> item_list;
 };
 
 GNULK_END_NAMESPACE

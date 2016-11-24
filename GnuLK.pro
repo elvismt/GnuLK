@@ -26,8 +26,6 @@ HEADERS += \
     src/GnuLK/Draw/FigureView_p.h \
     src/GnuLK/Util/Math.h \
     src/GnuLK/Util/Array_p.h \
-    src/GnuLK/Draw/FigureBaseItem.h \
-    src/GnuLK/Draw/FigureBaseItem_p.h \
     src/GnuLK/Draw/FigureScale.h \
     src/GnuLK/Draw/FigureScale_p.h
 
@@ -37,5 +35,4 @@ SOURCES += \
     src/GnuLK/Draw/Graphics.cpp \
     src/GnuLK/Draw/Figure.cpp \
     src/GnuLK/Draw/FigureView.cpp \
-    src/GnuLK/Draw/FigureBaseItem.cpp \
     src/GnuLK/Draw/FigureScale.cpp

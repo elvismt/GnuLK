@@ -43,7 +43,7 @@ public:
     Color back_color;
     double layout_rows;
     double layout_cols;
-    List<FigureScale*> scales;
+    List<FigureScale*> scale_list;
 };
 
 GNULK_END_NAMESPACE

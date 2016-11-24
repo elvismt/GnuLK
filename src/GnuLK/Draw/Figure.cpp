@@ -37,21 +37,21 @@ String Figure::name() const {
 }
 
 
-List<FigureScale*>& Figure::scales() {
+List<FigureScale*>& Figure::scale_list() {
     GNULK_PUBLIC(Figure);
-    return m->scales;
+    return m->scale_list;
 }
 
 
-const List<FigureScale*>& Figure::scales() const {
+const List<FigureScale*>& Figure::scale_list() const {
     GNULK_PUBLIC(const Figure);
-    return m->scales;
+    return m->scale_list;
 }
 
 
 FigureScale* Figure::scale(const String &name) {
     GNULK_PUBLIC(Figure);
-    for (auto scale : m->scales) {
+    for (auto scale : m->scale_list) {
         if (scale->name() == name) {
             return scale;
         }
@@ -63,7 +63,7 @@ FigureScale* Figure::scale(const String &name) {
 
 void Figure::add(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
-    m->scales.push_back(scale);
+    m->scale_list.push_back(scale);
     scale->set_figure(this);
     m->update_layout();
 }
@@ -71,7 +71,7 @@ void Figure::add(FigureScale *scale) {
 
 void Figure::remove(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
-    m->scales.remove(scale);
+    m->scale_list.remove(scale);
     scale->set_figure(nullptr);
     m->update_layout();
 }
@@ -100,7 +100,7 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
     /* draw all of the item's contents */
     double cell_width = rect.width() / m->layout_cols;
     double cell_height = rect.height() / m->layout_rows;
-    for (auto scale : m->scales) {
+    for (auto scale : m->scale_list) {
         if (scale->visible()) {
             Rect scale_rect = scale->layout_rect();
             Rect position_rect(
@@ -109,8 +109,7 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
                 scale_rect.width() * cell_width,
                 scale_rect.height() * cell_height
             );
-            scale->set_position_rect(position_rect);
-            scale->draw(gc);
+            scale->draw(position_rect, gc);
         }
     }
 
@@ -121,7 +120,7 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
 void FigurePrivate::update_layout() {
     layout_rows = 0;
     layout_cols = 0;
-    for (auto scale : scales) {
+    for (auto scale : scale_list) {
         Rect scale_rect = scale->layout_rect();
         if (scale_rect.right() > layout_cols) {
             layout_cols = scale_rect.right();
