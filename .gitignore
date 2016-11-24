@@ -6,4 +6,4 @@ build*
 *.user
 .tags
 *.swp
-
+*.autosave
