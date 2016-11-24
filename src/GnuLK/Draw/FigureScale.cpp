@@ -113,6 +113,15 @@ void FigureScale::set_figure(Figure *figure) {
 
 void FigureScale::draw(const Rect &rect, Graphics &gc) {
     GNULK_PUBLIC(FigureScale);
+    if (rect.is_empty()) {
+        return;
+    }
+    if (!m->back_color.is_null()) {
+        gc.set_color(m->back_color);
+        gc.new_path();
+        gc.rect(rect);
+        gc.fill();
+    }
     for (auto item : m->item_list) {
         if (item->visible()) {
             item->draw(gc);

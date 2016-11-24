@@ -21,13 +21,11 @@
 #ifndef GNULK_FIGURESCALE_H
 #define GNULK_FIGURESCALE_H
 
-#include <GnuLK/Util/Object.h>
-#include <GnuLK/Draw/Rect.h>
+#include <GnuLK/Draw/Graphics.h>
 
 GNULK_BEGIN_NAMESPACE
 class Figure;
 class FigureItem;
-class Graphics;
 GNULK_END_NAMESPACE
 
 

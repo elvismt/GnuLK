@@ -18,49 +18,37 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_FIGUREITEM_H
-#define GNULK_FIGUREITEM_H
+#ifndef GNULK_XYSCALE_H
+#define GNULK_XYSCALE_H
 
-#include <GnuLK/Draw/Graphics.h>
-
-GNULK_BEGIN_NAMESPACE
-class Figure;
-class FigureScale;
-GNULK_END_NAMESPACE
-
+#include <GnuLK/Draw/FigureScale.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT FigureItem
-    : public Object
+class GNULK_EXPORT XYScale
+   : public FigureScale
 {
 public:
 
-    Figure* figure() const;
-    FigureScale* scale() const;
+    XYScale(const String &name="scale");
 
-    String name() const;
-    void set_name(const String &name);
+   virtual Rect figure_rect() const;
+   virtual Rect data_rect() const;
 
-    bool visible() const;
-    void set_visible(bool visible);
+   virtual Point map(const Point &p) const;
+   virtual Point unmap(const Point &p) const;
 
-    virtual Rect figure_rect() const = 0;
-    virtual Rect data_rect() const = 0;
+   virtual void rescale();
 
 
 protected:
 
-    friend class FigureScale;
+   virtual void draw(const Rect &rect, Graphics &gc);
 
-    virtual void set_scale(FigureScale *scale);
-
-    virtual void draw(Graphics &gc) = 0;
-
-    FigureItem(ObjectPrivate *priv)
-        : Object(priv) {}
+   XYScale(ObjectPrivate *priv)
+       : FigureScale(priv) {}
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_FIGUREITEM_H
+#endif // GNULK_XYSCALE_H

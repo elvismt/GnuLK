@@ -29,7 +29,11 @@ using namespace std;
 int main()
 {
     FigureView view;
+    XYScale scale;
+
+    view.figure()->add(scale);
     view.show();
+
     Window::run();
     return 0;
 }

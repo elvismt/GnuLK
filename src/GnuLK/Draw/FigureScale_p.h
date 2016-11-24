@@ -36,6 +36,7 @@ public:
         , name("scale")
         , visible(true)
         , layout_rect(0,0,1,1)
+        , back_color(Color::BLUE)
     { }
 
 
@@ -43,6 +44,7 @@ public:
     String name;
     bool visible;
     Rect layout_rect;
+    Color back_color;
     List<FigureItem*> item_list;
 };
 

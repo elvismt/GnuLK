@@ -23,6 +23,7 @@
 
 #include <GnuLK/Draw/Window.h>
 #include <GnuLK/Draw/Figure.h>
+#include <GnuLK/Draw/XYScale.h>
 
 GNULK_BEGIN_NAMESPACE
 

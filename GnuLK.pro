@@ -29,7 +29,9 @@ HEADERS += \
     src/GnuLK/Draw/FigureScale.h \
     src/GnuLK/Draw/FigureScale_p.h \
     src/GnuLK/Draw/FigureItem.h \
-    src/GnuLK/Draw/FigureItem_p.h
+    src/GnuLK/Draw/FigureItem_p.h \
+    src/GnuLK/Draw/XYScale.h \
+    src/GnuLK/Draw/XYScale_p.h
 
 SOURCES += \
     Test.cpp \
@@ -38,4 +40,5 @@ SOURCES += \
     src/GnuLK/Draw/Figure.cpp \
     src/GnuLK/Draw/FigureView.cpp \
     src/GnuLK/Draw/FigureScale.cpp \
-    src/GnuLK/Draw/FigureItem.cpp
+    src/GnuLK/Draw/FigureItem.cpp \
+    src/GnuLK/Draw/XYScale.cpp
