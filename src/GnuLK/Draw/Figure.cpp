@@ -22,18 +22,18 @@
 
 GNULK_BEGIN_NAMESPACE
 
-Figure::Figure(const String &title)
+Figure::Figure(const String &name)
     : Figure(new FigurePrivate(this))
 {
     GNULK_PUBLIC(Figure);
 
-    m->title = title;
+    m->name = name;
 }
 
 
-String Figure::title() const {
+String Figure::name() const {
     GNULK_PUBLIC(const Figure);
-    return m->title;
+    return m->name;
 }
 
 
@@ -49,29 +49,20 @@ const List<FigureScale*>& Figure::scales() const {
 }
 
 
-FigureScale* Figure::scale(const String &title) {
+FigureScale* Figure::scale(const String &name) {
     // TODO
 }
 
 
-void Figure::append(FigureScale *scale) {
+void Figure::add(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
     m->scales.push_back(scale);
 }
 
 
-void Figure::detach(FigureScale *scale) {
+void Figure::remove(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
-    auto iter = m->scales.begin();
-    auto end = m->scales.end();
-
-    while (iter != end) {
-        if (*iter == scale) {
-            iter = m->scales.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
+    m->scales.remove(scale);
 }
 
 

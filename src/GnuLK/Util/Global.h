@@ -47,10 +47,10 @@ GNULK_BEGIN_NAMESPACE
 
 using String = std::string;
 
-template <class T>
+template <typename T>
 using Vector = std::vector<T>;
 
-template <class T>
+template <typename T>
 using List = std::list<T>;
 
 GNULK_END_NAMESPACE

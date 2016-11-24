@@ -18,29 +18,34 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGURE_P_H
-#define GNULK_DRAW_FIGURE_P_H
+#ifndef GNULK_FIGUREBASEITEM_P_H
+#define GNULK_FIGUREBASEITEM_P_H
 
-#include <GnuLK/Draw/Figure.h>
+#include <GnuLK/Draw/FigureBaseItem.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class FigurePrivate
-    : public ObjectPrivate
+class FigureBaseItemPrivate : public ObjectPrivate
 {
 public:
 
-    FigurePrivate(Figure *publ)
-        : ObjectPrivate(publ)
-        , name("Figure")
-        , back_color(Color::WHITE)
-    { }
 
+    FigureBaseItemPrivate(FigureBaseItem *publ)
+        : ObjectPrivate(publ)
+        , figure(nullptr)
+        , parent(nullptr)
+        , visible(true)
+    {}
+
+
+    Figure *figure;
+    FigureBaseItem *parent;
+    bool visible;
     String name;
-    Color back_color;
-    List<FigureScale*> scales;
+    List<FigureBaseItem*> children;
+
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_DRAW_FIGURE_P_H
+#endif // GNULK_FIGUREBASEITEM_P_H

@@ -25,11 +25,14 @@ HEADERS += \
     src/GnuLK/Draw/FigureView.h \
     src/GnuLK/Draw/FigureView_p.h \
     src/GnuLK/Util/Math.h \
-    src/GnuLK/Util/Array_p.h
+    src/GnuLK/Util/Array_p.h \
+    src/GnuLK/Draw/FigureBaseItem.h \
+    src/GnuLK/Draw/FigureBaseItem_p.h
 
 SOURCES += \
     Test.cpp \
     src/GnuLK/Draw/Window.cpp \
     src/GnuLK/Draw/Graphics.cpp \
     src/GnuLK/Draw/Figure.cpp \
-    src/GnuLK/Draw/FigureView.cpp
+    src/GnuLK/Draw/FigureView.cpp \
+    src/GnuLK/Draw/FigureBaseItem.cpp

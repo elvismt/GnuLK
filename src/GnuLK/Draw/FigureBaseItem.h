@@ -18,58 +18,56 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGURE_H
-#define GNULK_DRAW_FIGURE_H
+#ifndef GNULK_FIGUREBASEITEM_H
+#define GNULK_FIGUREBASEITEM_H
 
 #include <GnuLK/Util/Object.h>
-#include <GnuLK/Draw/Graphics.h>
+
 
 GNULK_BEGIN_NAMESPACE
-class FigureBaseItem;
-class FigureScale;
+class Graphics;
+class Figure;
 GNULK_END_NAMESPACE
 
+
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT Figure
-    : public Object
+class GNULK_EXPORT FigureBaseItem : public Object
 {
 public:
 
-    Figure(const String &name="GnuLK");
+    Figure* figure() const;
 
+    FigureBaseItem* parent() const;
 
     String name() const;
     void set_name(const String &name);
 
+    bool visible() const;
+    void set_visible(bool visible);
 
-    List<FigureScale*>& scales();
-    const List<FigureScale*>& scales() const;
+    List<FigureBaseItem*>& children();
+    const List<FigureBaseItem*>& children() const;
+    FigureBaseItem* child(const String &name);
 
+    virtual void add(FigureBaseItem *child);
+    inline void add(FigureBaseItem &child) { add(&child); }
 
-    FigureScale* scale(const String &name);
+    virtual void remove(FigureBaseItem *child);
+    inline void remove(FigureBaseItem &child) { remove(&child); }
+    inline void remove(const String &name) { remove(child(name)); }
 
-
-    virtual void add(FigureScale *item);
-    inline void add(FigureScale &scale) { add(&scale); }
-
-    virtual void remove(FigureScale *scale);
-    inline void remove(FigureScale &scale) { remove(&scale); }
-    inline void remove(const String &title) { remove(scale(title)); }
-
-
-    virtual void draw(const Rect &rect, Graphics &gc);
-
-    void save_png(const String &filename, const Rect &size=Rect(600,500));
+    virtual void draw(Graphics &gc);
 
 
 protected:
 
-    Figure(ObjectPrivate *priv)
-        : Object(priv)
-    { }
+    virtual void set_parent(FigureBaseItem *parent);
+
+    FigureBaseItem(ObjectPrivate *priv)
+        : Object(priv) {}
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_DRAW_FIGURE_H
+#endif // GNULK_FIGUREBASEITEM_H
