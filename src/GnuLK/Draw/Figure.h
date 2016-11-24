@@ -60,7 +60,8 @@ public:
 
     virtual void draw(const Rect &rect, Graphics &gc);
 
-    void save_png(const String &filename, const Rect &size=Rect(600,500));
+    void save_png(const String &filename,
+                  const Rect &size=Rect(600,500));
 
 
 protected:

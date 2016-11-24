@@ -18,34 +18,40 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_DRAW_FIGURE_P_H
-#define GNULK_DRAW_FIGURE_P_H
-
-#include <GnuLK/Draw/Figure.h>
+#include <GnuLK/Draw/FigureScale_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class FigurePrivate
-    : public ObjectPrivate
-{
-public:
-
-    FigurePrivate(Figure *publ)
-        : ObjectPrivate(publ)
-        , name("Figure")
-        , back_color(Color::WHITE)
-    { }
-
-    void update_layout();
+Rect FigureScale::layout_rect() const {
+    GNULK_PUBLIC(const FigureScale);
+    return m->layout_rect;
+}
 
 
-    String name;
-    Color back_color;
-    double layout_rows;
-    double layout_cols;
-    List<FigureScale*> scales;
-};
+void FigureScale::set_layout_rect(const Rect &layout_rect) {
+    GNULK_PUBLIC(FigureScale);
+    m->layout_rect = layout_rect;
+}
+
+
+Rect FigureScale::figure_rect() const {
+    GNULK_PUBLIC(const FigureScale);
+    return m->position_rect;
+}
+
+
+void FigureScale::set_figure(Figure *figure) {
+    GNULK_PUBLIC(FigureScale);
+    m->figure = figure;
+    for (auto child : m->children) {
+        child->set_parent(this);
+    }
+}
+
+
+void FigureScale::set_position_rect(const Rect &position_rect) {
+    GNULK_PUBLIC(FigureScale);
+    m->position_rect = position_rect;
+}
 
 GNULK_END_NAMESPACE
-
-#endif // GNULK_DRAW_FIGURE_P_H

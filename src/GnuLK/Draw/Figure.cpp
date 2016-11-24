@@ -19,6 +19,7 @@
  */
 
 #include <GnuLK/Draw/Figure_p.h>
+#include <GnuLK/Draw/FigureScale.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -26,7 +27,6 @@ Figure::Figure(const String &name)
     : Figure(new FigurePrivate(this))
 {
     GNULK_PUBLIC(Figure);
-
     m->name = name;
 }
 
@@ -50,19 +50,30 @@ const List<FigureScale*>& Figure::scales() const {
 
 
 FigureScale* Figure::scale(const String &name) {
-    // TODO
+    GNULK_PUBLIC(Figure);
+    for (auto scale : m->scales) {
+        if (scale->name() == name) {
+            return scale;
+        }
+    }
+    // not found
+    return nullptr;
 }
 
 
 void Figure::add(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
     m->scales.push_back(scale);
+    scale->set_figure(this);
+    m->update_layout();
 }
 
 
 void Figure::remove(FigureScale *scale) {
     GNULK_PUBLIC(Figure);
     m->scales.remove(scale);
+    scale->set_figure(nullptr);
+    m->update_layout();
 }
 
 
@@ -77,6 +88,7 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
     gc.new_path();
     gc.rect(rect);
 
+    /* if required fill the background with color */
     if (m->back_color.is_null() == false) {
         gc.clip_preserve();
         gc.set_color(m->back_color);
@@ -85,8 +97,39 @@ void Figure::draw(const Rect &rect, Graphics &gc) {
         gc.clip();
     }
 
+    /* draw all of the item's contents */
+    double cell_width = rect.width() / m->layout_cols;
+    double cell_height = rect.height() / m->layout_rows;
+    for (auto scale : m->scales) {
+        if (scale->visible()) {
+            Rect scale_rect = scale->layout_rect();
+            Rect position_rect(
+                rect.x() + scale_rect.x() * cell_width,
+                rect.y() + scale_rect.y() * cell_height,
+                scale_rect.width() * cell_width,
+                scale_rect.height() * cell_height
+            );
+            scale->set_position_rect(position_rect);
+            scale->draw(gc);
+        }
+    }
 
     gc.restore();
+}
+
+
+void FigurePrivate::update_layout() {
+    layout_rows = 0;
+    layout_cols = 0;
+    for (auto scale : scales) {
+        Rect scale_rect = scale->layout_rect();
+        if (scale_rect.right() > layout_cols) {
+            layout_cols = scale_rect.right();
+        }
+        if (scale_rect.bottom() > layout_rows) {
+            layout_rows = scale_rect.bottom();
+        }
+    }
 }
 
 GNULK_END_NAMESPACE

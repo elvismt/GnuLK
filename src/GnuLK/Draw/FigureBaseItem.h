@@ -27,6 +27,7 @@
 GNULK_BEGIN_NAMESPACE
 class Graphics;
 class Figure;
+class FigureScale;
 GNULK_END_NAMESPACE
 
 
@@ -61,6 +62,8 @@ public:
 
 
 protected:
+
+    friend class FigureScale;
 
     virtual void set_parent(FigureBaseItem *parent);
 

@@ -89,12 +89,14 @@ FigureBaseItem* FigureBaseItem::child(const String &name) {
 void FigureBaseItem::add(FigureBaseItem *child) {
     GNULK_PUBLIC(FigureBaseItem);
     m->children.push_back(child);
+    child->set_parent(this);
 }
 
 
 void FigureBaseItem::remove(FigureBaseItem *child) {
     GNULK_PUBLIC(FigureBaseItem);
     m->children.remove(child);
+    child->set_parent(nullptr);
 }
 
 
@@ -110,7 +112,12 @@ void FigureBaseItem::draw(Graphics &gc) {
 
 void FigureBaseItem::set_parent(FigureBaseItem *parent) {
     GNULK_PUBLIC(FigureBaseItem);
-    m->figure = parent->figure();
+    if (parent != nullptr) {
+        m->figure = parent->figure();
+    } else {
+        m->figure = nullptr;
+    }
+
     m->parent = parent;
     for (auto child : m->children) {
         child->set_parent(this);
