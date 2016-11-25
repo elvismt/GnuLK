@@ -31,14 +31,16 @@ int main()
     FigureView view;
     XYScale scale;
 
-    Array1D x, y;
-    x = arange(0.0, 2.0*M_PI, 0.1);
-    y = applyed(Math::sin, x);
+    const int n_pts = 60;
+    Array1D x(n_pts), y(n_pts);
+    const double step = 2 * M_PI / n_pts;
+    for (int k=0; k<n_pts; ++k) {
+        x[k] = k * step;
+        y[k] = sin(4*x[k]) + 0.2*x[k]*x[k];
+    }
 
     XYSeries sine_series(x, y, "bog");
     scale.add(sine_series);
-
-    cout << x.size() << "    " << y.size() << endl;
 
     view.figure()->add(scale);
     view.show();

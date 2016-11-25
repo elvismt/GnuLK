@@ -21,12 +21,12 @@
 #ifndef GNULK_UTIL_ARRAY1_H
 #define GNULK_UTIL_ARRAY1_H
 
-#include <GnuLK/Util/ArrayBase.h>
+#include <GnuLK/Util/ArrayData.h>
 
 GNULK_BEGIN_NAMESPACE
 
 template <typename _Tp, typename _Alloc = std::allocator<_Tp> >
-struct   Array1: public  ArrayBase<1,_Tp,_Alloc>
+struct Array1
 {
 public:
 
@@ -35,62 +35,79 @@ public:
     typedef const _Tp&  const_reference;
     typedef _Tp*  pointer;
     typedef const _Tp*  const_pointer;
-    typedef ArrayBase<1,_Tp,_Alloc>  base_type;
-    typedef typename base_type::storage_type  storage_type;
-    typedef typename base_type::size_type  size_type;
+    typedef ArrayData<_Tp,_Alloc>  data_type;
+    typedef ArrayData<_Tp,_Alloc>*  data_pointer_type;
+    typedef typename data_type::size_type  size_type;
 
 
-    size_type size() const { return this->shape_[0]; }
-    reference operator[] (size_type idx) { return this->at(idx); }
-    const_reference operator[] (size_type idx) const { return this->at(idx); }
+
+    Array1() : size_{0}, data_{nullptr} { }
 
 
-    Array1() { this->shape_[0] = 0; }
-
-
-    Array1(size_type size)
-        : base_type(size) {
-        this->shape_[0] = size;
-    }
-
-
-    Array1(std::initializer_list<value_type> init_list)
-        : base_type(init_list){
-        this->shape_[0] = init_list.size();
-    }
-
-
-    Array1& operator= (const base_type &that) {
-        *((base_type*) this) = that;
-        return *this;
-    }
-
-
-    Array1& operator= (base_type &&that) {
-        *((base_type*) this) = that;
-        return *this;
-    }
-
-
-    void append(const_reference value) {
-        this->shape_[0] += 1;
-        if (this->storage_ != nullptr) {
-            this->vec_().push_back(value);
+    Array1(size_type size) {
+        if (size > 0) {
+            size_ = size;
+            data_ = new data_type(size);
         } else {
-            this->storage_ = new storage_type(1, value);
+            size_ = 0;
+            data_ = nullptr;
         }
     }
 
 
-    void push(const_reference value) {
-        this->append(value);
+    Array1(size_type size, const value_type &value) {
+        if (size > 0) {
+            size_ = size;
+            data_ = new data_type(size, value);
+        } else {
+            size_ = 0;
+            data_ = nullptr;
+        }
     }
 
 
-    Array1& operator<< (const_reference value) {
-        this->append(value);
+    Array1(const Array1 &that) {
+        size_ = that.size();
+        data_ = nullptr;
+        data_type::join_(&data_, that.data_);
+    }
+
+
+    Array1(Array1 &&that) {
+        size_ = that.size();
+        data_ = nullptr;
+        data_type::join_(&data_, that.data_);
+    }
+
+
+    ~Array1() {
+        data_type::detach_(&data_);
+    }
+
+
+    Array1& operator= (const Array1 &that) {
+        size_ = that.size();
+        data_type::join_(&data_, that.data_);
         return *this;
     }
+
+
+    Array1& operator= (Array1 &&that) {
+        size_ = that.size();
+        data_type::join_(&data_, that.data_);
+        return *this;
+    }
+
+
+    size_type size() const { return size_; }
+    reference operator[] (size_type idx) { return data_->vector_[idx]; }
+    const_reference operator[] (size_type idx) const { return data_->vector_[idx]; }
+
+
+private:
+
+    size_type size_;
+    data_pointer_type data_;
 };
 
 GNULK_END_NAMESPACE

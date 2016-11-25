@@ -32,31 +32,6 @@ GNULK_BEGIN_NAMESPACE
 
 typedef Array1<double> Array1D;
 
-
-template <typename T> inline
-Array1D arange(const T &start, const T &stop, const T &step=T(1)) {
-    Array1D ret((stop-start)/step);
-    for (uint32_t k=0; k<ret.total_size(); ++k)
-        ret[k] = start + k * step;
-    return ret;
-}
-
-
-template <typename F, int D, typename T, typename A>
-inline void apply(F func, ArrayBase<D,T,A> &arr) {
-    for (uint32_t k=0; k<arr.total_size(); ++k)
-        func(arr.at(k));
-}
-
-
-template <typename F, int D, typename T, typename A>
-inline ArrayBase<D,T,A> applyed(F func, ArrayBase<D,T,A> &arr) {
-    ArrayBase<D,T,A> ret(arr.total_size());
-    for (uint32_t k=0; k<ret.total_size(); ++k)
-        ret.at(k) = func(arr.at(k));
-    return ret;
-}
-
 GNULK_END_NAMESPACE
 
 #endif // GNULK_UTIL_ARRAY_H

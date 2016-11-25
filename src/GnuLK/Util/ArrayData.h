@@ -18,8 +18,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_ARRAYSTORAGE_H
-#define GNULK_UTIL_ARRAYSTORAGE_H
+#ifndef GNULK_UTIL_ARRAYDATA_H
+#define GNULK_UTIL_ARRAYDATA_H
 
 #include <GnuLK/Util/Global.h>
 #include <vector>
@@ -27,7 +27,7 @@
 GNULK_BEGIN_NAMESPACE
 
 template <typename _Tp, typename _Alloc = std::allocator<_Tp> >
-struct   ArrayStorage
+struct ArrayData
 {
     typedef _Tp  value_type;
     typedef std::vector<_Tp,_Alloc>  vector_type;
@@ -35,29 +35,50 @@ struct   ArrayStorage
     typedef const std::vector<_Tp,_Alloc>&  vector_const_reference;
     typedef typename vector_type::size_type  size_type;
 
-
-    ArrayStorage() = delete;
-    ArrayStorage(const ArrayStorage&) = delete;
-    ArrayStorage(ArrayStorage&&) = delete;
-    ArrayStorage& operator=(const ArrayStorage&) = delete;
-    ArrayStorage& operator=(ArrayStorage&&) = delete;
+    ArrayData() = delete;
+    ArrayData(const ArrayData&) = delete;
+    ArrayData(ArrayData&&) = delete;
+    ArrayData& operator=(const ArrayData&) = delete;
+    ArrayData& operator=(ArrayData&&) = delete;
 
 
     template <class... CtorArgs>
-    ArrayStorage(CtorArgs... args)
+    ArrayData(CtorArgs... args)
         : vector_(args...)
         , ref_count_(1) {}
 
 
-    ArrayStorage* ref_() {
+    inline ArrayData* ref_() {
         ref_count_ += 1;
         return this;
     }
 
 
-    bool unref_() {
+    inline bool unref_() {
         ref_count_ -= 1;
         return ref_count_ == 0;
+    }
+
+
+    static inline void detach_(ArrayData **d1) {
+        if ((*d1) != nullptr) {
+            if ((*d1)->unref_()) {
+                delete (*d1);
+            }
+            (*d1) = nullptr;
+        }
+    }
+
+
+    static inline void join_(ArrayData **d1, ArrayData *d2) {
+        if (d2 != (*d1)) {
+            detach_(d1);
+            if (d2 != nullptr) {
+                (*d1) = d2->ref_();
+            } else {
+                (*d1) = nullptr;
+            }
+        }
     }
 
 
@@ -67,4 +88,4 @@ struct   ArrayStorage
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_ARRAYSTORAGE_H
+#endif // GNULK_UTIL_ARRAYDATA_H
