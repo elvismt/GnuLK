@@ -24,13 +24,14 @@
 GNULK_BEGIN_NAMESPACE
 
 XYSeries::XYSeries(const Vector<double> &x,
-                   const Vector<double> &y,
+                   const Vector<double> &y, const char *style,
                    const String &name)
     : XYSeries(new XYSeriesPrivate(this))
 {
     GNULK_PUBLIC(XYSeries);
     m->name = name;
     set_data(x, y);
+    set_style(style);
 }
 
 
@@ -63,7 +64,12 @@ void XYSeries::set_data(const Vector<double> &x,
 
 void XYSeries::draw(Graphics &gc) {
     GNULK_PUBLIC(XYSeries);
-    m->draw_circles(gc);
+
+    if (m->point_symbol == LINE) {
+        m->draw_line(gc);
+    } else {
+        m->draw_circles(gc);
+    }
 }
 
 
@@ -127,6 +133,56 @@ void XYSeriesPrivate::check_ranges() {
         if (y[k] < y_min) y_min = y[k];
         if (y[k] > y_max) y_max = y[k];
     }
+}
+
+
+static inline
+uint32_t parse_color(char c) {
+    switch (c) {
+        case 'k': return Color::BLACK;
+        case 'w': return Color::WHITE;
+        case 'r': return Color::RED;
+        case 'g': return Color::GREEN;
+        case 'b': return Color::BLUE;
+    }
+    return Color::BLUE;
+}
+
+
+static inline
+uint32_t parse_symbol(char c) {
+    switch (c) {
+        case 'o': return XYSeries::CIRCLES;
+        case '-': return XYSeries::LINE;
+    }
+    return XYSeries::CIRCLES;
+}
+
+
+void XYSeries::set_style(const char *style) {
+    GNULK_PUBLIC(XYSeries);
+    Color stroke_color(Color::BLUE);
+    Color fill_color(Color::RED);
+    uint32_t symbol = CIRCLES;
+    int k = 0;
+
+    if (style != nullptr && style[k] != '\0') {
+        fill_color = parse_color(style[k++]);
+        stroke_color = fill_color;
+    }
+
+    if (style != nullptr && style[k] != '\0') {
+        symbol = parse_symbol(style[k++]);
+    }
+
+    if (style != nullptr && style[k] != '\0') {
+        fill_color = parse_color(style[k++]);
+    }
+
+    m->line_color = stroke_color;
+    m->point_stroke_color = stroke_color;
+    m->point_fill_color = fill_color;
+    m->point_symbol = symbol;
 }
 
 GNULK_END_NAMESPACE

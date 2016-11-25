@@ -33,7 +33,8 @@ HEADERS += \
     src/GnuLK/Draw/XYScale.h \
     src/GnuLK/Draw/XYScale_p.h \
     src/GnuLK/Draw/XYSeries.h \
-    src/GnuLK/Draw/XYSeries_p.h
+    src/GnuLK/Draw/XYSeries_p.h \
+    src/GnuLK/Draw/MouseEvent.h
 
 SOURCES += \
     Test.cpp \

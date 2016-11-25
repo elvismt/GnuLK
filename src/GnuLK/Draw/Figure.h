@@ -22,6 +22,7 @@
 #define GNULK_DRAW_FIGURE_H
 
 #include <GnuLK/Draw/Graphics.h>
+#include <GnuLK/Draw/MouseEvent.h>
 
 GNULK_BEGIN_NAMESPACE
 class FigureItem;
@@ -56,6 +57,8 @@ public:
     void save_png(const String &filename,
                   const Rect &size=Rect(600,500));
 
+
+    virtual void mouse_event(const MouseEvent &event);
 
     virtual void inform_error();
 

@@ -30,8 +30,15 @@ class GNULK_EXPORT XYSeries
 {
 public:
 
+    enum PointSymbol: uint32_t {
+        LINE             = 0x00000001,
+        CIRCLES          = 0x00000002
+    };
+
+
     XYSeries(const Vector<double> &x,
              const Vector<double> &y,
+             const char *style="bor",
              const String &name="series");
 
     virtual Rect figure_rect() const;
@@ -39,6 +46,8 @@ public:
 
     virtual void set_data(const Vector<double> &x,
                           const Vector<double> &y);
+
+    virtual void set_style(const char *style);
 
 
 protected:

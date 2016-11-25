@@ -61,7 +61,7 @@ void FigureItem::set_visible(bool visible) {
 
 void FigureItem::set_scale(FigureScale *scale) {
     GNULK_PUBLIC(FigureItem);
-    Figure *old_figure = m->figure;
+    // Figure *old_figure = m->figure;
     Figure *new_figure = scale ? scale->figure() : nullptr;
 
     m->scale = scale;

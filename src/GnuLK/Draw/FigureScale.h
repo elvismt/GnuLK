@@ -22,6 +22,7 @@
 #define GNULK_FIGURESCALE_H
 
 #include <GnuLK/Draw/Graphics.h>
+#include <GnuLK/Draw/MouseEvent.h>
 
 GNULK_BEGIN_NAMESPACE
 class Figure;
@@ -66,6 +67,7 @@ public:
 
     virtual void rescale() = 0;
 
+    virtual void mouse_event(const MouseEvent &event);
 
 protected:
 

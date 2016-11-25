@@ -38,6 +38,8 @@ public:
 
     Figure* figure() const;
 
+    virtual void mouse_event(const MouseEvent &event);
+
 
 protected:
 

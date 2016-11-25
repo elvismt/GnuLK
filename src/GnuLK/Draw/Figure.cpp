@@ -139,6 +139,16 @@ void FigurePrivate::update_layout() {
 }
 
 
+void Figure::mouse_event(const MouseEvent &event) {
+    GNULK_PUBLIC(Figure);
+    for (auto scale : m->scale_list) {
+        if (scale->visible() == true) {
+            scale->mouse_event(event);
+        }
+    }
+}
+
+
 void Figure::inform_error() {
     GNULK_PUBLIC(Figure);
     m->on_error = true;

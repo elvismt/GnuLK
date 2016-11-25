@@ -111,20 +111,8 @@ void Window::draw(Graphics &gc) {
 }
 
 
-void Window::mouse_press(MouseButton button, const Point &pos) {
-    GNULK_UNUSED(button);
-    GNULK_UNUSED(pos);
-}
-
-
-void Window::mouse_move(const Point &pos) {
-    GNULK_UNUSED(pos);
-}
-
-
-void Window::mouse_release(MouseButton button, const Point &pos) {
-    GNULK_UNUSED(button);
-    GNULK_UNUSED(pos);
+void Window::mouse_event(const MouseEvent &event) {
+    GNULK_UNUSED(event);
 }
 
 
@@ -162,14 +150,18 @@ gboolean _on_draw (GtkWidget *self, cairo_t *cr, gpointer *data) {
 static
 gboolean _on_mouse_press (GtkWidget *self, GdkEvent *event, gpointer *data) {
     Window *cppobj = (Window*) data;
+    MouseEvent mouse_event;
     GNULK_UNUSED(self);
 
+    mouse_event.action = MOUSE_PRESS;
+    mouse_event.position = Point(event->button.x, event->button.y);
+
     if (event->button.button == 1) {
-        cppobj->mouse_press(Window::LEFT_BUTTON,
-            Point(event->button.x, event->button.y));
+        mouse_event.button = MOUSE_LEFT_BUTTON;
+        cppobj->mouse_event(mouse_event);
     } else if (event->button.button == 3) {
-        cppobj->mouse_press(Window::RIGHT_BUTTON,
-            Point(event->button.x, event->button.y));
+        mouse_event.button = MOUSE_RIGHT_BUTTON;
+        cppobj->mouse_event(mouse_event);
     }
 
     return TRUE;
@@ -179,9 +171,13 @@ gboolean _on_mouse_press (GtkWidget *self, GdkEvent *event, gpointer *data) {
 static
 gboolean _on_mouse_move (GtkWidget *self, GdkEvent *event, gpointer *data) {
     Window *cppobj = (Window*) data;
+    MouseEvent mouse_event;
     GNULK_UNUSED(self);
 
-    cppobj->mouse_move(Point(event->button.x, event->button.y));
+    mouse_event.action = MOUSE_MOVE;
+    mouse_event.position = Point(event->button.x, event->button.y);
+    mouse_event.button = MOUSE_NO_BUTTON;
+    cppobj->mouse_event(mouse_event);
 
     return TRUE;
 }
@@ -190,14 +186,18 @@ gboolean _on_mouse_move (GtkWidget *self, GdkEvent *event, gpointer *data) {
 static
 gboolean _on_mouse_release (GtkWidget *self, GdkEvent *event, gpointer *data) {
     Window *cppobj = (Window*) data;
+    MouseEvent mouse_event;
     GNULK_UNUSED(self);
 
+    mouse_event.action = MOUSE_RELEASE;
+    mouse_event.position = Point(event->button.x, event->button.y);
+
     if (event->button.button == 1) {
-        cppobj->mouse_release(Window::LEFT_BUTTON,
-            Point(event->button.x, event->button.y));
+        mouse_event.button = MOUSE_LEFT_BUTTON;
+        cppobj->mouse_event(mouse_event);
     } else if (event->button.button == 3) {
-        cppobj->mouse_release(Window::RIGHT_BUTTON,
-            Point(event->button.x, event->button.y));
+        mouse_event.button = MOUSE_RIGHT_BUTTON;
+        cppobj->mouse_event(mouse_event);
     }
 
     return TRUE;

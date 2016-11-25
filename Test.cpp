@@ -42,10 +42,10 @@ int main()
         yc.push_back(4*cos(4*t) + 0.4*t*t);
     }
 
-    XYSeries sine_series(x, ys);
+    XYSeries sine_series(x, ys, "bog");
     scale.add(sine_series);
 
-    XYSeries cossine_series(x, yc);
+    XYSeries cossine_series(x, yc, "bor");
     scale.add(cossine_series);
 
     view.figure()->add(scale);

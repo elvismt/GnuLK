@@ -21,8 +21,8 @@
 #ifndef GNULK_UTIL_WINDOW_H
 #define GNULK_UTIL_WINDOW_H
 
-#include <GnuLK/Util/Object.h>
 #include <GnuLK/Draw/Graphics.h>
+#include <GnuLK/Draw/MouseEvent.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -31,19 +31,11 @@ class GNULK_EXPORT Window
 {
 public:
 
-
-    enum MouseButton: uint32_t {
-        LEFT_BUTTON,
-        RIGHT_BUTTON
-    };
-
-
     Window(const String &title="GnuLK",
            int width=500, int height=420);
 
 
     Rect rect() const;
-
 
     virtual void show();
 
@@ -51,14 +43,9 @@ public:
 
     static void run();
 
-
     virtual void draw(Graphics &gc);
 
-    virtual void mouse_press(MouseButton button, const Point &pos);
-
-    virtual void mouse_move(const Point &pos);
-
-    virtual void mouse_release(MouseButton button, const Point &pos);
+    virtual void mouse_event(const MouseEvent &event);
 
 
 protected:

@@ -125,4 +125,9 @@ void FigureScale::draw(const Rect &rect, Graphics &gc) {
     }
 }
 
+
+void FigureScale::mouse_event(const MouseEvent &event) {
+    // TODO
+}
+
 GNULK_END_NAMESPACE

@@ -34,11 +34,12 @@ public:
     XYSeriesPrivate(XYSeries *publ)
        : FigureItemPrivate(publ)
        , line_color(Color::BLUE)
-       , line_width(3.0)
-       , point_stroke_color(Color::RED)
-       , point_fill_color(Color::GREEN)
-       , point_radius(3.5)
-       , point_stroke_width(1.5)
+       , line_width(2.0)
+       , point_stroke_color(Color::BLUE)
+       , point_fill_color(Color::RED)
+       , point_radius(2.8)
+       , point_stroke_width(1.1)
+       , point_symbol(XYSeries::CIRCLES)
     { }
 
 
@@ -55,6 +56,7 @@ public:
     Color point_fill_color;
     double point_radius;
     double point_stroke_width;
+    uint32_t point_symbol;
 
     Vector<double> x;
     Vector<double> y;

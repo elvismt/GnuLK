@@ -66,4 +66,10 @@ void FigureView::draw(Graphics &gc) {
     m->figure->draw(rect(), gc);
 }
 
+
+void FigureView::mouse_event(const MouseEvent &event) {
+    GNULK_PUBLIC(FigureView);
+    m->figure->mouse_event(event);
+}
+
 GNULK_END_NAMESPACE
