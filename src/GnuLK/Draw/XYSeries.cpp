@@ -23,8 +23,9 @@
 
 GNULK_BEGIN_NAMESPACE
 
-XYSeries::XYSeries(const Vector<double> &x,
-                   const Vector<double> &y, const char *style,
+XYSeries::XYSeries(const Array1D &x,
+                   const Array1D &y,
+                   const char *style,
                    const String &name)
     : XYSeries(new XYSeriesPrivate(this))
 {
@@ -48,16 +49,14 @@ Rect XYSeries::data_rect() const {
 }
 
 
-void XYSeries::set_data(const Vector<double> &x,
-                        const Vector<double> &y)
+void XYSeries::set_data(const Array1D &x,
+                        const Array1D &y)
 {
     GNULK_PUBLIC(XYSeries);
 
     m->point_count = std::min(x.size(), y.size());
-    m->x.resize(x.size());
-    std::copy(x.begin(), x.end(), m->x.begin());
-    m->y.resize(y.size());
-    std::copy(y.begin(), y.end(), m->y.begin());
+    m->x = x;
+    m->y = y;
     m->check_ranges();
 }
 

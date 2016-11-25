@@ -34,7 +34,11 @@ HEADERS += \
     src/GnuLK/Draw/XYScale_p.h \
     src/GnuLK/Draw/XYSeries.h \
     src/GnuLK/Draw/XYSeries_p.h \
-    src/GnuLK/Draw/MouseEvent.h
+    src/GnuLK/Draw/MouseEvent.h \
+    src/GnuLK/Util/ArrayStorage.h \
+    src/GnuLK/Util/ArrayBase.h \
+    src/GnuLK/Util/Array1.h \
+    src/GnuLK/Util/Array.h
 
 SOURCES += \
     Test.cpp \

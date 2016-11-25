@@ -58,8 +58,8 @@ public:
     double point_stroke_width;
     uint32_t point_symbol;
 
-    Vector<double> x;
-    Vector<double> y;
+    Array1D x;
+    Array1D y;
     uint32_t point_count;
 
     double x_min, x_max;

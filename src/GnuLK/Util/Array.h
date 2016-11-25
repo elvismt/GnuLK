@@ -21,45 +21,41 @@
 #ifndef GNULK_UTIL_ARRAY_H
 #define GNULK_UTIL_ARRAY_H
 
+#include <GnuLK/Util/Array1.h>
 #include <GnuLK/Util/Math.h>
+
+#include <iostream>
+#include <cmath>
+using namespace std;
 
 GNULK_BEGIN_NAMESPACE
 
-/* Base class template for the GnuLK's public arrays */
-template <int D, class T=double> class Array {};
+typedef Array1<double> Array1D;
 
 
-template <class T>
-class Array<0,T>
-{
-public:
-
-    Array(uint64_t shape0)
-        : m_shape{0UL, 0UL}
-        , m_ref_count{1UL}
-        , m_buffer{nullptr}
-    {
-        resize(shape0);
-    }
-
-    Array(uint64_t shape0, uint64_t shape1)
-        : m_shape{0UL, 0UL}
-        , m_ref_count{1UL}
-        , m_buffer{nullptr}
-    {
-        resize(shape0, shape1);
-    }
-    
-    
-    ~Array()
+template <typename T> inline
+Array1D arange(const T &start, const T &stop, const T &step=T(1)) {
+    Array1D ret((stop-start)/step);
+    for (uint32_t k=0; k<ret.total_size(); ++k)
+        ret[k] = start + k * step;
+    return ret;
+}
 
 
-private:
+template <typename F, int D, typename T, typename A>
+inline void apply(F func, ArrayBase<D,T,A> &arr) {
+    for (uint32_t k=0; k<arr.total_size(); ++k)
+        func(arr.at(k));
+}
 
-    uint64_t m_shape[2];
-    uint64_t m_ref_count;
-    T *m_buffer;
-};
+
+template <typename F, int D, typename T, typename A>
+inline ArrayBase<D,T,A> applyed(F func, ArrayBase<D,T,A> &arr) {
+    ArrayBase<D,T,A> ret(arr.total_size());
+    for (uint32_t k=0; k<ret.total_size(); ++k)
+        ret.at(k) = func(arr.at(k));
+    return ret;
+}
 
 GNULK_END_NAMESPACE
 

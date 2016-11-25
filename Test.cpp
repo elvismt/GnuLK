@@ -19,7 +19,6 @@
  */
 
 #include <GnuLK/Draw/FigureView.h>
-#include <GnuLK/Util/Array_p.h>
 using namespace GnuLK;
 
 #include <iostream>
@@ -32,21 +31,14 @@ int main()
     FigureView view;
     XYScale scale;
 
-    Vector<double> x, ys, yc;
-    const uint32_t npts = 60;
-    const double step = 2.0*M_PI/npts;
-    for (uint32_t k=0; k<npts; ++k) {
-        double t = k * step;
-        x.push_back(t);
-        ys.push_back(4*sin(4*t) + t*t);
-        yc.push_back(4*cos(4*t) + 0.4*t*t);
-    }
+    Array1D x, y;
+    x = arange(0.0, 2.0*M_PI, 0.1);
+    y = applyed(Math::sin, x);
 
-    XYSeries sine_series(x, ys, "bog");
+    XYSeries sine_series(x, y, "bog");
     scale.add(sine_series);
 
-    XYSeries cossine_series(x, yc, "bor");
-    scale.add(cossine_series);
+    cout << x.size() << "    " << y.size() << endl;
 
     view.figure()->add(scale);
     view.show();

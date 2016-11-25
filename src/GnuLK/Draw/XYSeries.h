@@ -22,6 +22,7 @@
 #define GNULK_XYSERIES_H
 
 #include <GnuLK/Draw/FigureItem.h>
+#include <GnuLK/Util/Array.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -36,16 +37,16 @@ public:
     };
 
 
-    XYSeries(const Vector<double> &x,
-             const Vector<double> &y,
+    XYSeries(const Array1D &x,
+             const Array1D &y,
              const char *style="bor",
              const String &name="series");
 
     virtual Rect figure_rect() const;
     virtual Rect data_rect() const;
 
-    virtual void set_data(const Vector<double> &x,
-                          const Vector<double> &y);
+    virtual void set_data(const Array1D &x,
+                          const Array1D &y);
 
     virtual void set_style(const char *style);
 
