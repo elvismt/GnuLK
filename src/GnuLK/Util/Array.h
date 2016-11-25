@@ -22,11 +22,6 @@
 #define GNULK_UTIL_ARRAY_H
 
 #include <GnuLK/Util/Array1.h>
-#include <GnuLK/Util/Math.h>
-
-#include <iostream>
-#include <cmath>
-using namespace std;
 
 GNULK_BEGIN_NAMESPACE
 

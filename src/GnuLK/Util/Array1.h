@@ -22,6 +22,7 @@
 #define GNULK_UTIL_ARRAY1_H
 
 #include <GnuLK/Util/ArrayData.h>
+#include <GnuLK/Util/Math.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -109,6 +110,38 @@ private:
     size_type size_;
     data_pointer_type data_;
 };
+
+
+
+template <typename T, typename A = std::allocator<T> >
+inline Array1<T,A> arange(const T &start, const T &stop, const T &step=T(1)) {
+    Array1<T,A> ret(double(stop-start)/step);
+    for (uint32_t k=0; k<ret.size(); ++k)
+        ret[k] = start + k *step;
+    return std::move(ret);
+}
+
+
+template <typename F, typename T, typename A = std::allocator<T> >
+inline Array1<T,A> applyed(F func, const Array1<T,A> &arr) {
+    Array1<T,A> ret(arr.size());
+    for (uint32_t k=0; k<ret.size(); ++k)
+        ret[k] = func(arr[k]);
+    return std::move(ret);
+}
+
+
+
+template <typename T, typename A = std::allocator<T> >
+inline Array1<T,A> sin(const Array1<T,A> &arr) {
+    return applyed(Math::sin, arr);
+}
+
+
+template <typename T, typename A = std::allocator<T> >
+inline Array1<T,A> cos(const Array1<T,A> &arr) {
+    return applyed(Math::cos, arr);
+}
 
 GNULK_END_NAMESPACE
 
