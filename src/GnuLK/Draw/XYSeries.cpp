@@ -94,6 +94,25 @@ void XYSeriesPrivate::draw_circles(Graphics &gc) {
 }
 
 
+void XYSeriesPrivate::draw_line_circles(Graphics &gc) {
+    Point p1 = scale->map(Point(x[0], y[0]));
+    Point p2;
+
+    for (uint32_t k=1; k<point_count; ++k) {
+        p2 = scale->map(Point(x[k], y[k]));
+        gc.set_width(line_width);
+        gc.draw_line(p1, p2, line_color);
+        gc.set_width(point_stroke_width);
+        gc.draw_circle(p1.x(), p1.y(), point_radius,
+                       point_fill_color, point_stroke_color);
+        p1 = p2;
+    }
+
+    gc.draw_circle(p2.x(), p2.y(), point_radius,
+                   point_fill_color, point_stroke_color);
+}
+
+
 void XYSeriesPrivate::check_ranges() {
     if (point_count == 0) {
         return;

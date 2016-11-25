@@ -113,6 +113,13 @@ public:
         circle(c.x(), c.y(), r);
     }
 
+    void draw_line(double x1, double y1, double x2, double y2,
+                   const Color &color);
+
+    inline void draw_line(const Point &p1, const Point &p2, const Color &color) {
+        draw_line(p1.x(), p1.y(), p2.x(), p2.y(), color);
+    }
+
     void draw_rect(const Rect &rect, const Color &fill,
                    const Color &stroke);
 

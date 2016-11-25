@@ -195,6 +195,20 @@ void try_fill_stroke (cairo_t *cr, const Color &fill,
 }
 
 
+void Graphics::draw_line(double x1, double y1, double x2, double y2,
+               const Color &color)
+{
+    GNULK_PUBLIC(Graphics);
+    if (!color.is_null()) {
+        cairo_move_to(m->cr, x1, y1);
+        cairo_line_to(m->cr, x2, y2);
+        cairo_set_source_rgba(m->cr, color.red_f(),
+            color.green_f(), color.blue_f(), color.alpha_f());
+        cairo_stroke(m->cr);
+    }
+}
+
+
 void Graphics::draw_circle(double x, double y, double r,
                            const Color &fill, const Color &stroke)
 {

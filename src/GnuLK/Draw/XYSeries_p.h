@@ -33,18 +33,19 @@ public:
 
     XYSeriesPrivate(XYSeries *publ)
        : FigureItemPrivate(publ)
-       , line_color(Color::BLACK)
-       , line_width(1.2)
-       , point_stroke_color(Color::BLUE)
-       , point_fill_color(Color::RED)
-       , point_radius(3.0)
-       , point_stroke_width(1.2)
+       , line_color(Color::BLUE)
+       , line_width(3.0)
+       , point_stroke_color(Color::RED)
+       , point_fill_color(Color::GREEN)
+       , point_radius(3.5)
+       , point_stroke_width(1.5)
     { }
 
 
     void check_ranges();
     void draw_line(Graphics &gc);
     void draw_circles(Graphics &gc);
+    void draw_line_circles(Graphics &gc);
 
 
     Color line_color;
