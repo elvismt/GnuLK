@@ -43,10 +43,15 @@ public:
     void set_x_range(double min, double max);
     void set_y_range(double min, double max);
 
+    virtual void track_data_rect(const Rect &rect);
+    virtual void track_figure_rect(const Rect &rect);
+
 
 protected:
 
    virtual void draw(const Rect &rect, Graphics &gc);
+
+    virtual void mouse_event(const MouseEvent &event);
 
    XYScale(ObjectPrivate *priv)
        : FigureScale(priv) {}

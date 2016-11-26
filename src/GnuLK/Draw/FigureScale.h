@@ -67,7 +67,10 @@ public:
 
     virtual void rescale() = 0;
 
-    virtual void mouse_event(const MouseEvent &event);
+    virtual void track_data_rect(const Rect &rect);
+
+    virtual void track_figure_rect(const Rect &rect);
+
 
 protected:
 
@@ -76,6 +79,8 @@ protected:
     virtual void set_figure(Figure *figure);
 
     virtual void draw(const Rect &rect, Graphics &gc);
+
+    virtual void mouse_event(const MouseEvent &event);
 
     FigureScale(ObjectPrivate *priv)
         : Object(priv) {}

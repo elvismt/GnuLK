@@ -124,6 +124,12 @@ Rect Window::rect() const {
 }
 
 
+void Window::redraw() {
+    GNULK_PUBLIC(Window);
+    gtk_widget_queue_draw(m->drawing_area);
+}
+
+
 static
 gboolean _on_close (GtkWidget *self, gpointer *data) {
     Window *cppobj = (Window*) data;

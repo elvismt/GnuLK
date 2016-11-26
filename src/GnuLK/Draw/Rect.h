@@ -46,6 +46,10 @@ public:
     inline Rect(double w, double h)
         : m_x{0.0}, m_y{0.0}, m_w{w}, m_h{h} { }
 
+    inline Rect(const Point &p1, const Point &p2)
+        : m_x{p1.x()}, m_y{p1.y()}, m_w{p2.x() - p1.x()}
+        , m_h{p2.y() - p1.y()} { }
+
 
     double x() const { return m_x; }
 

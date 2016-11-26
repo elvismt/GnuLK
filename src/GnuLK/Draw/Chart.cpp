@@ -18,46 +18,33 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_WINDOW_H
-#define GNULK_UTIL_WINDOW_H
-
-#include <GnuLK/Draw/Graphics.h>
-#include <GnuLK/Draw/MouseEvent.h>
+#include <GnuLK/Draw/Chart_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT Window
-    : public Object
+Chart::Chart(const String &title, int width, int height)
+    : Chart(new ChartPrivate(this), nullptr, title, width, height)
+{ }
+
+
+void Chart::plot(const Array1D &x, const Array1D &y,
+                 const char *style, const String &name)
 {
-public:
+    GNULK_PUBLIC(Chart);
+    FigureScale *scale;
+    FigureItem *item;
 
-    Window(const String &title="GnuLK",
-           int width=500, int height=420);
+    if (m->scale_list.size() == 0) {
+        scale = new XYScale("scale[0][0]");
+        m->scale_list.push_back(scale);
+        m->figure->add(scale);
+    } else {
+        scale = m->scale_list.front();
+    }
 
-
-    Rect rect() const;
-
-    void redraw();
-
-
-    virtual void show();
-
-    virtual void hide();
-
-    static void run();
-
-    virtual void draw(Graphics &gc);
-
-    virtual void mouse_event(const MouseEvent &event);
-
-
-protected:
-
-    Window(ObjectPrivate *priv,
-           const String &title,
-           int width, int height);
-};
+    item = new XYSeries(x, y, style, name);
+    m->item_list.push_back(item);
+    scale->add(item);
+}
 
 GNULK_END_NAMESPACE
-
-#endif // GNULK_UTIL_WINDOW_H

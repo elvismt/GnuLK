@@ -127,7 +127,19 @@ void FigureScale::draw(const Rect &rect, Graphics &gc) {
 
 
 void FigureScale::mouse_event(const MouseEvent &event) {
-    // TODO
+    GNULK_UNUSED(event);
+    // pass
+}
+
+
+void FigureScale::track_data_rect(const Rect &rect) {
+    GNULK_UNUSED(rect);
+    // pass
+}
+
+void FigureScale::track_figure_rect(const Rect &rect) {
+    GNULK_UNUSED(rect);
+    // pass
 }
 
 GNULK_END_NAMESPACE

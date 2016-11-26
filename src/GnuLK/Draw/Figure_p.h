@@ -32,6 +32,7 @@ public:
 
     FigurePrivate(Figure *publ)
         : ObjectPrivate(publ)
+        , view(nullptr)
         , name("Figure")
         , fill_color(Color::WHITE)
         , stroke_color(Color::NONE)
@@ -43,6 +44,7 @@ public:
     void update_layout();
 
 
+    FigureView *view;
     String name;
     Color fill_color;
     Color stroke_color;

@@ -22,6 +22,7 @@
 #define GNULK_FIGURESCALE_P_H
 
 #include <GnuLK/Draw/FigureScale.h>
+#include <GnuLK/Draw/Figure.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -39,6 +40,14 @@ public:
         , stroke_color(Color::BLACK)
         , fill_color(Color::WHITE)
     { }
+
+
+    inline
+    void inform_figure_change() {
+        if (figure != nullptr) {
+            figure->inform_look_change(nullptr);
+        }
+    }
 
 
     Figure *figure;

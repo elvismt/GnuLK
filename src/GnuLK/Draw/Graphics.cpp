@@ -126,6 +126,20 @@ void Graphics::translate(double dx, double dy) {
 }
 
 
+void Graphics::set_antialias(bool antialias) {
+    GNULK_PUBLIC(Graphics);
+    cairo_set_antialias(m->cr,
+    antialias ? CAIRO_ANTIALIAS_SUBPIXEL
+              : CAIRO_ANTIALIAS_NONE);
+}
+
+
+void Graphics::set_dashed_line(const double *dashes, int num_dashes) {
+    GNULK_PUBLIC(Graphics);
+    cairo_set_dash(m->cr, dashes, num_dashes, 0.0);
+}
+
+
 void Graphics::rotate(double a) {
     GNULK_PUBLIC(Graphics);
     cairo_rotate(m->cr, a);

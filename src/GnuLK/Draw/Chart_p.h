@@ -18,46 +18,28 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_UTIL_WINDOW_H
-#define GNULK_UTIL_WINDOW_H
+#ifndef GNULK_DRAW_CHART_P_H
+#define GNULK_DRAW_CHART_P_H
 
-#include <GnuLK/Draw/Graphics.h>
-#include <GnuLK/Draw/MouseEvent.h>
+#include <GnuLK/Draw/Chart.h>
+#include <GnuLK/Draw/FigureView_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class GNULK_EXPORT Window
-    : public Object
+class ChartPrivate
+    : public FigureViewPrivate
 {
 public:
 
-    Window(const String &title="GnuLK",
-           int width=500, int height=420);
+    ChartPrivate(Chart *publ)
+        : FigureViewPrivate(publ)
+    { }
 
 
-    Rect rect() const;
-
-    void redraw();
-
-
-    virtual void show();
-
-    virtual void hide();
-
-    static void run();
-
-    virtual void draw(Graphics &gc);
-
-    virtual void mouse_event(const MouseEvent &event);
-
-
-protected:
-
-    Window(ObjectPrivate *priv,
-           const String &title,
-           int width, int height);
+    List<FigureItem*> item_list;
+    List<FigureScale*> scale_list;
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_UTIL_WINDOW_H
+#endif // GNULK_DRAW_CHART_P_H

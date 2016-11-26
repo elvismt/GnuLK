@@ -27,7 +27,9 @@
 GNULK_BEGIN_NAMESPACE
 class FigureItem;
 class FigureScale;
+class FigureView;
 GNULK_END_NAMESPACE
+
 
 GNULK_BEGIN_NAMESPACE
 
@@ -37,6 +39,8 @@ class GNULK_EXPORT Figure
 public:
 
     Figure(const String &name="GnuLK");
+
+    FigureView* view() const;
 
     String name() const;
     void set_name(const String &name);
@@ -57,12 +61,20 @@ public:
     void save_png(const String &filename,
                   const Rect &size=Rect(600,500));
 
+    virtual void inform_error();
+
+    virtual void inform_look_change(FigureItem *item);
+
+    virtual void inform_data_change(FigureItem *item);
+
+
+protected:
+
+    friend class FigureView;
 
     virtual void mouse_event(const MouseEvent &event);
 
-    virtual void inform_error();
-
-protected:
+    virtual void set_view(FigureView *view);
 
     Figure(ObjectPrivate *priv)
         : Object(priv)

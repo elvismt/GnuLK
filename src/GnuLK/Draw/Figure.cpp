@@ -20,6 +20,8 @@
 
 #include <GnuLK/Draw/Figure_p.h>
 #include <GnuLK/Draw/FigureScale.h>
+#include <GnuLK/Draw/FigureItem.h>
+#include <GnuLK/Draw/FigureView.h>
 
 GNULK_BEGIN_NAMESPACE
 
@@ -34,6 +36,12 @@ Figure::Figure(const String &name)
 String Figure::name() const {
     GNULK_PUBLIC(const Figure);
     return m->name;
+}
+
+
+FigureView* Figure::view() const {
+    GNULK_PUBLIC(const Figure);
+    return m->view;
 }
 
 
@@ -139,12 +147,40 @@ void FigurePrivate::update_layout() {
 }
 
 
+void Figure::inform_look_change(FigureItem *item) {
+    GNULK_PUBLIC(Figure);
+    GNULK_UNUSED(item);
+
+    if (m->view != nullptr) {
+        m->view->redraw();
+    }
+}
+
+
+void Figure::inform_data_change(FigureItem *item) {
+    if (item != nullptr) {
+        item->scale()->rescale();
+    }
+    inform_look_change(item);
+}
+
+
 void Figure::mouse_event(const MouseEvent &event) {
     GNULK_PUBLIC(Figure);
     for (auto scale : m->scale_list) {
         if (scale->visible() == true) {
             scale->mouse_event(event);
         }
+    }
+}
+
+
+void Figure::set_view(FigureView *view) {
+    GNULK_PUBLIC(Figure);
+
+    m->view = view;
+    for (auto scale : m->scale_list) {
+        scale->set_figure(this);
     }
 }
 

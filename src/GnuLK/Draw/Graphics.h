@@ -68,6 +68,10 @@ public:
 
     void translate(double dx, double dy);
 
+    void set_antialias(bool antialias);
+
+    void set_dashed_line(const double *dashes, int num_dashes=2);
+
     inline
     void translate(const Point &p) {
         translate(p.x(), p.y());

@@ -165,17 +165,19 @@ void XYSeries::set_style(const char *style) {
     uint32_t symbol = CIRCLES;
     int k = 0;
 
-    if (style != nullptr && style[k] != '\0') {
-        fill_color = parse_color(style[k++]);
-        stroke_color = fill_color;
-    }
+    if (style != nullptr) {
+        if (style[k] != '\0') {
+            fill_color = parse_color(style[k++]);
+            stroke_color = fill_color;
+        }
 
-    if (style != nullptr && style[k] != '\0') {
-        symbol = parse_symbol(style[k++]);
-    }
+        if (style[k] != '\0') {
+            symbol = parse_symbol(style[k++]);
+        }
 
-    if (style != nullptr && style[k] != '\0') {
-        fill_color = parse_color(style[k++]);
+        if (style[k] != '\0') {
+            fill_color = parse_color(style[k++]);
+        }
     }
 
     m->line_color = stroke_color;

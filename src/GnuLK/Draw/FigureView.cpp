@@ -37,6 +37,8 @@ FigureView::FigureView(ObjectPrivate *priv,
         m->figure = new Figure();
         m->own_figure = true;
     }
+
+    m->figure->set_view(this);
 }
 
 

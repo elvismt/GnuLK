@@ -113,8 +113,8 @@ private:
 
 
 
-template <typename T, typename A = std::allocator<T> >
-inline Array1<T,A> arange(const T &start, const T &stop, const T &step=T(1)) {
+template <typename T, typename A = std::allocator<T> > inline
+Array1<T,A> arange(const T &start, const T &stop, const T &step=T(1)) {
     Array1<T,A> ret(double(stop-start)/step);
     for (uint32_t k=0; k<ret.size(); ++k)
         ret[k] = start + k *step;
@@ -122,7 +122,39 @@ inline Array1<T,A> arange(const T &start, const T &stop, const T &step=T(1)) {
 }
 
 
-template <typename F, typename T, typename A = std::allocator<T> >
+template <typename F, typename T = double, typename A = std::allocator<T> >
+inline Array1<T,A> array(uint32_t size, F func) {
+    Array1<T,A> ret(size);
+    for (uint32_t k=0; k<ret.size(); ++k)
+        func(k, ret[k]);
+    return std::move(ret);
+}
+
+
+template <typename T, typename A>
+inline Array1<T,A> like(const Array1<T,A> &arr) {
+    Array1<T,A> ret(arr.size());
+    return std::move(ret);
+}
+
+
+template <typename T, typename A>
+inline Array1<T,A> copy(const Array1<T,A> &arr) {
+    Array1<T,A> ret(arr.size());
+    for (uint32_t k=0; k<ret.size(); ++k)
+        ret[k] = arr[k];
+    return std::move(ret);
+}
+
+
+template <typename F, typename T, typename A>
+inline void for_each(Array1<T,A> &arr, F func) {
+    for (uint32_t k=0; k<arr.size(); ++k)
+        func(arr[k]);
+}
+
+
+template <typename F, typename T, typename A>
 inline Array1<T,A> applyed(F func, const Array1<T,A> &arr) {
     Array1<T,A> ret(arr.size());
     for (uint32_t k=0; k<ret.size(); ++k)
@@ -132,13 +164,13 @@ inline Array1<T,A> applyed(F func, const Array1<T,A> &arr) {
 
 
 
-template <typename T, typename A = std::allocator<T> >
+template <typename T, typename A>
 inline Array1<T,A> sin(const Array1<T,A> &arr) {
     return applyed(Math::sin, arr);
 }
 
 
-template <typename T, typename A = std::allocator<T> >
+template <typename T, typename A>
 inline Array1<T,A> cos(const Array1<T,A> &arr) {
     return applyed(Math::cos, arr);
 }

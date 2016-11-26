@@ -164,12 +164,84 @@ void XYScale::draw(const Rect &rect, Graphics &gc) {
     gc.clip();
 
     /* let the parent classe's method draw the
-     * background and all of the items */
+     * background and all of the items. If in the
+     * process of zooming draw a rectangle */
     FigureScale::draw(rect, gc);
+    if (m->zooming == true) {
+        m->draw_zoom_rect(gc);
+    }
 
     /* return gc in the same state it has entered
      * this method */
     gc.restore();
+}
+
+
+void XYScalePrivate::draw_zoom_rect(Graphics &gc) {
+    static double dashes[] = {3.0, 3.0};
+    gc.save();
+    gc.set_width(1.0);
+    gc.set_antialias(false);
+    gc.set_dashed_line(dashes, 2);
+    gc.new_path();
+    gc.set_color(zoom_rect_color);
+    gc.rect(Rect(zoom_p1, zoom_p2));
+    gc.stroke();
+    gc.restore();
+}
+
+
+void XYScale::mouse_event(const MouseEvent &event) {
+    GNULK_PUBLIC(XYScale);
+
+    if (figure_rect().contains(event.position) == false) {
+        m->zooming = false;
+        return;
+    }
+
+    if (event.action == MOUSE_PRESS) {
+        if (event.button == MOUSE_LEFT_BUTTON) {
+            m->zooming = true;
+            m->zoom_p1 = event.position;
+            m->zoom_p2 = event.position;
+        }
+        else if (event.button == MOUSE_RIGHT_BUTTON) {
+            m->zooming = false;
+            rescale();
+            m->inform_figure_change();
+        }
+    }
+
+    else if (event.action == MOUSE_MOVE) {
+        if (m->zooming == true) {
+            m->zoom_p2 = event.position;
+            m->inform_figure_change();
+        }
+    }
+
+    else if (event.action == MOUSE_RELEASE) {
+        if (m->zooming == true) {
+            track_figure_rect(Rect(m->zoom_p1, m->zoom_p2));
+        }
+        m->zooming = false;
+        m->inform_figure_change();
+    }
+}
+
+
+void XYScale::track_data_rect(const Rect &rect) {
+    set_x_range(rect.left(), rect.right());
+    set_y_range(rect.top(), rect.bottom());
+}
+
+
+void XYScale::track_figure_rect(const Rect &rect) {
+    Point p1 = unmap(rect.top_left());
+    Point p2 = unmap(rect.bottom_right());
+    double tmp = p1.y();
+    p1.set_y(p2.y());
+    p2.set_y(tmp);
+    track_data_rect(Rect(p1,p2));
 }
 
 

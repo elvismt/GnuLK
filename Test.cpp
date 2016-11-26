@@ -18,30 +18,23 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include <GnuLK/Draw/FigureView.h>
+#include <GnuLK/Draw/Chart.h>
 using namespace GnuLK;
-
-#include <iostream>
-#include <cmath>
-using namespace std;
-
 
 int main()
 {
-    FigureView view;
-    XYScale scale;
+    Chart chart;
 
     auto x = arange(0.0, 2.0*M_PI, 0.1);
+    chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
+        x = sin(0.1*k) + 0.004*k*k;
+    }), "bor");
 
-    XYSeries sine_series(x, sin(x), "bor");
-    scale.add(sine_series);
+    chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
+        x = cos(0.1*k) + 0.002*k*k;
+    }), "b-");
 
-    XYSeries cossine_series(x, cos(x), "bog");
-    scale.add(cossine_series);
-
-    view.figure()->add(scale);
-    view.show();
-
+    chart.show();
     Window::run();
     return 0;
 }
