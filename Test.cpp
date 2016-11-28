@@ -27,12 +27,12 @@ int main()
 
     auto x = arange(0.0, 2.0*M_PI, 0.1);
     chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
-        x = sin(0.1*k) + 0.004*k*k;
-    }), "bor");
+        x = sin(0.8*k) + 0.004*k*k;
+    }), "kor");
 
     chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
-        x = cos(0.1*k) + 0.002*k*k;
-    }), "b-");
+        x = cos(0.4*k) + 0.002*k*k;
+    }), "kog");
 
     chart.show();
     Window::run();

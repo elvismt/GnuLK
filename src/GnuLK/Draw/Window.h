@@ -32,7 +32,7 @@ class GNULK_EXPORT Window
 public:
 
     Window(const String &title="GnuLK",
-           int width=500, int height=420);
+           int width=600, int height=500);
 
 
     Rect rect() const;

@@ -37,7 +37,11 @@ XYSeries::XYSeries(const Array1D &x,
 
 
 Rect XYSeries::figure_rect() const {
-    // TODO
+    GNULK_PUBLIC(const XYSeries);
+    if (m->scale != nullptr) {
+        return m->scale->figure_rect();
+    }
+    return Rect();
 }
 
 
@@ -63,11 +67,16 @@ void XYSeries::set_data(const Array1D &x,
 
 void XYSeries::draw(Graphics &gc) {
     GNULK_PUBLIC(XYSeries);
+    if (m->point_count == 0) {
+        return;
+    }
 
     if (m->point_symbol == LINE) {
         m->draw_line(gc);
-    } else {
+    } else if (m->point_symbol == CIRCLES) {
         m->draw_circles(gc);
+    } else if (m->point_symbol == (LINE|CIRCLES)) {
+        m->draw_line_circles(gc);
     }
 }
 
@@ -154,7 +163,7 @@ uint32_t parse_symbol(char c) {
         case 'o': return XYSeries::CIRCLES;
         case '-': return XYSeries::LINE;
     }
-    return XYSeries::CIRCLES;
+    return 0;
 }
 
 
@@ -173,6 +182,13 @@ void XYSeries::set_style(const char *style) {
 
         if (style[k] != '\0') {
             symbol = parse_symbol(style[k++]);
+            if (symbol == LINE) {
+                uint32_t ss = parse_symbol(style[k]);
+                if (ss != 0) {
+                    symbol |= ss;
+                    k += 1;
+                }
+            }
         }
 
         if (style[k] != '\0') {

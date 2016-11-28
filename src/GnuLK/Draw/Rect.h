@@ -46,9 +46,22 @@ public:
     inline Rect(double w, double h)
         : m_x{0.0}, m_y{0.0}, m_w{w}, m_h{h} { }
 
-    inline Rect(const Point &p1, const Point &p2)
-        : m_x{p1.x()}, m_y{p1.y()}, m_w{p2.x() - p1.x()}
-        , m_h{p2.y() - p1.y()} { }
+    inline Rect(const Point &p1, const Point &p2) {
+        if (p1.x() < p2.x()) {
+            m_x = p1.x();
+            m_w = p2.x() - p1.x();
+        } else {
+            m_x = p2.x();
+            m_w = p1.x() - p2.x();
+        }
+        if (p1.y() < p2.y()) {
+            m_y = p1.y();
+            m_h = p2.y() - p1.y();
+        } else {
+            m_y = p2.y();
+            m_h = p1.y() - p2.y();
+        }
+    }
 
 
     double x() const { return m_x; }
