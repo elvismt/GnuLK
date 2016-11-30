@@ -59,7 +59,14 @@ public:
     Point operator+ (const Point &v) const { return Point(m_x+v.m_x,m_y+v.m_y); }
 
     double operator* (const Point &v) const { return m_x*v.m_x + m_y*v.m_y; }
+
+    inline double dist_sqr(const Point &v) const {
+        double dx = m_x - v.x();
+        double dy = m_y - v.y();
+        return dx*dx + dy*dy;
+    }
 };
+
 
 GNULK_END_NAMESPACE
 

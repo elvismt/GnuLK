@@ -37,7 +37,8 @@ public:
        , top_margin(20), bottom_margin(20)
        , x_padding(0.02), y_padding(0.02)
        , zoom_rect_color(0x6F6F6FFF)
-       , zooming(false)
+       , mouse_moving(false)
+       , mouse_mode(XYScale::MOUSE_TRANSLATES)
     { }
 
 
@@ -45,13 +46,18 @@ public:
 
     void draw_zoom_rect(Graphics &gc);
 
+    void zoom_mouse_event(const MouseEvent &event);
+
+    void translate_mouse_event(const MouseEvent &event);
+
 
     double left_margin, right_margin;
     double top_margin, bottom_margin;
     double x_padding, y_padding;
 
     Color zoom_rect_color;
-    bool zooming;
+    bool mouse_moving;
+    XYScale::MouseMode mouse_mode;
     Point zoom_p1, zoom_p2;
 
     double fig_x_min, fig_x_max;

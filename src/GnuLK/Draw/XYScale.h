@@ -30,6 +30,13 @@ class GNULK_EXPORT XYScale
 {
 public:
 
+
+    enum MouseMode: uint32_t {
+        MOUSE_ZOOMS,
+        MOUSE_TRANSLATES
+    };
+
+
     XYScale(const String &name="scale");
 
    virtual Rect figure_rect() const;
@@ -45,6 +52,9 @@ public:
 
     virtual void track_data_rect(const Rect &rect);
     virtual void track_figure_rect(const Rect &rect);
+
+    MouseMode mouse_mode() const;
+    void set_mouse_mode(MouseMode mode);
 
 
 protected:

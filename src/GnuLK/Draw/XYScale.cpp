@@ -167,7 +167,7 @@ void XYScale::draw(const Rect &rect, Graphics &gc) {
      * background and all of the items. If in the
      * process of zooming draw a rectangle */
     FigureScale::draw(rect, gc);
-    if (m->zooming == true) {
+    if (m->mouse_moving == true && m->mouse_mode == MOUSE_ZOOMS) {
         m->draw_zoom_rect(gc);
     }
 
@@ -193,42 +193,96 @@ void XYScalePrivate::draw_zoom_rect(Graphics &gc) {
 
 void XYScale::mouse_event(const MouseEvent &event) {
     GNULK_PUBLIC(XYScale);
-
     if (figure_rect().contains(event.position) == false) {
-        if (m->zooming == true) {
-            m->zooming = false;
+        if (m->mouse_moving == true) {
+            m->mouse_moving = false;
             m->inform_figure_change();
         }
         return;
     }
 
+    if (m->mouse_mode == MOUSE_ZOOMS) {
+        m->zoom_mouse_event(event);
+    } else {
+        m->translate_mouse_event(event);
+    }
+}
+
+
+void XYScalePrivate::zoom_mouse_event(const MouseEvent &event) {
+    GNULK_PRIVATE(XYScale);
     if (event.action == MOUSE_PRESS) {
         if (event.button == MOUSE_LEFT_BUTTON) {
-            m->zooming = true;
-            m->zoom_p1 = event.position;
-            m->zoom_p2 = event.position;
+            mouse_moving = true;
+            zoom_p1 = event.position;
+            zoom_p2 = event.position;
         }
         else if (event.button == MOUSE_RIGHT_BUTTON) {
-            m->zooming = false;
-            rescale();
-            m->inform_figure_change();
+            mouse_moving = false;
+            m->rescale();
+            inform_figure_change();
         }
     }
 
     else if (event.action == MOUSE_MOVE) {
-        if (m->zooming == true) {
-            m->zoom_p2 = event.position;
-            m->inform_figure_change();
+        if (mouse_moving == true) {
+            zoom_p2 = event.position;
+            inform_figure_change();
         }
     }
 
     else if (event.action == MOUSE_RELEASE) {
-        if (m->zooming == true) {
-            m->zooming = false;
-            track_figure_rect(Rect(m->zoom_p1, m->zoom_p2));
-            m->inform_figure_change();
+        if (mouse_moving == true) {
+            mouse_moving = false;
+            if (zoom_p1.dist_sqr(zoom_p2) > 16.0)
+                m->track_figure_rect(Rect(zoom_p1, zoom_p2));
+            inform_figure_change();
         }
     }
+}
+
+
+void XYScalePrivate::translate_mouse_event(const MouseEvent &event) {
+    GNULK_PRIVATE(XYScale);
+    if (event.action == MOUSE_PRESS) {
+        if (event.button == MOUSE_LEFT_BUTTON) {
+            mouse_moving = true;
+            zoom_p1 = event.position;
+            zoom_p2 = event.position;
+        }
+        else if (event.button == MOUSE_RIGHT_BUTTON) {
+            mouse_moving = false;
+            m->rescale();
+            inform_figure_change();
+        }
+    }
+
+    else if (event.action == MOUSE_MOVE) {
+        if (mouse_moving == true) {
+            zoom_p2 = event.position;
+            Rect figure_rect = m->figure_rect();
+            figure_rect.translate(zoom_p1 - zoom_p2);
+            m->track_figure_rect(figure_rect);
+            zoom_p1 = zoom_p2;
+            inform_figure_change();
+        }
+    }
+
+    else if (event.action == MOUSE_RELEASE) {
+        mouse_moving = false;
+    }
+}
+
+
+XYScale::MouseMode XYScale::mouse_mode() const {
+    GNULK_PUBLIC(XYScale);
+    return m->mouse_mode;
+}
+
+
+void XYScale::set_mouse_mode(MouseMode mode) {
+    GNULK_PUBLIC(XYScale);
+    m->mouse_mode = mode;
 }
 
 
