@@ -195,7 +195,10 @@ void XYScale::mouse_event(const MouseEvent &event) {
     GNULK_PUBLIC(XYScale);
 
     if (figure_rect().contains(event.position) == false) {
-        m->zooming = false;
+        if (m->zooming == true) {
+            m->zooming = false;
+            m->inform_figure_change();
+        }
         return;
     }
 
@@ -221,10 +224,10 @@ void XYScale::mouse_event(const MouseEvent &event) {
 
     else if (event.action == MOUSE_RELEASE) {
         if (m->zooming == true) {
+            m->zooming = false;
             track_figure_rect(Rect(m->zoom_p1, m->zoom_p2));
+            m->inform_figure_change();
         }
-        m->zooming = false;
-        m->inform_figure_change();
     }
 }
 
@@ -238,9 +241,6 @@ void XYScale::track_data_rect(const Rect &rect) {
 void XYScale::track_figure_rect(const Rect &rect) {
     Point p1 = unmap(rect.top_left());
     Point p2 = unmap(rect.bottom_right());
-    double tmp = p1.y();
-    p1.set_y(p2.y());
-    p2.set_y(tmp);
     track_data_rect(Rect(p1,p2));
 }
 
