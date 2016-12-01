@@ -34,11 +34,14 @@ public:
           int width=600, int height=500);
 
 
-    virtual void plot(const Array1D &x,
+    virtual XYSeries *plot(const Array1D &x,
                       const Array1D &y,
                       const char *style="bor",
                       const String &name="series");
 
+    virtual void subplots(int rows, int columns);
+
+    XYScale* operator() (int row, int column);
 
 
 protected:

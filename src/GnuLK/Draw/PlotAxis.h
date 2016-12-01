@@ -18,35 +18,57 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_FIGUREITEM_P_H
-#define GNULK_FIGUREITEM_P_H
+#ifndef GNULK_PLOTAXIS_H
+#define GNULK_PLOTAXIS_H
 
 #include <GnuLK/Draw/FigureItem.h>
 
 GNULK_BEGIN_NAMESPACE
+class XYScale;
+GNULK_END_NAMESPACE
 
-class FigureItemPrivate
-    : public ObjectPrivate
+
+GNULK_BEGIN_NAMESPACE
+
+class GNULK_EXPORT PlotAxis
+    : public FigureItem
 {
 public:
 
-    FigureItemPrivate(FigureItem *publ)
-        : ObjectPrivate(publ)
-        , scale(nullptr)
-        , figure(nullptr)
-        , name("item")
-        , visible(true)
-        , rescalable(true)
+
+    enum Orientation: uint32_t {
+        HORIZONTAL,
+        VERTICAL
+    };
+
+    enum Component: uint32_t {
+        EVERITHING     = 0xFFFFFFF,
+        LINE           = 0x00000001
+    };
+
+
+    PlotAxis(const String &name, Orientation orientation,
+             Component component);
+
+
+    virtual Rect figure_rect() const;
+    virtual Rect data_rect() const;
+
+    virtual void set_range(double min, double max);
+    virtual void set_anchor(double anchor);
+
+
+protected:
+
+    friend class XYScale;
+
+    virtual void draw(Graphics &gc);
+
+    PlotAxis(ObjectPrivate *priv)
+        : FigureItem(priv)
     { }
-
-
-    FigureScale *scale;
-    Figure *figure;
-    String name;
-    bool visible;
-    bool rescalable;
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_FIGUREITEM_P_H
+#endif // GNULK_PLOTAXIS_H

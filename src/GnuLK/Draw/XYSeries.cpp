@@ -87,6 +87,7 @@ void XYSeriesPrivate::draw_line(Graphics &gc) {
     gc.move_to(p1);
 
     gc.set_width(line_width);
+    gc.set_antialias(line_antialias);
     for (uint32_t k=1; k<point_count; ++k) {
         Point p2 = scale->map(Point(x[k], y[k]));
         gc.line_to(p2);
@@ -100,6 +101,7 @@ void XYSeriesPrivate::draw_line(Graphics &gc) {
 void XYSeriesPrivate::draw_circles(Graphics &gc) {
 
     gc.set_width(point_stroke_width);
+    gc.set_antialias(point_antialias);
     for (uint32_t k=0; k<point_count; ++k) {
         Point p = scale->map(Point(x[k], y[k]));
         gc.draw_circle(p.x(), p.y(), point_radius,
@@ -115,8 +117,11 @@ void XYSeriesPrivate::draw_line_circles(Graphics &gc) {
     for (uint32_t k=1; k<point_count; ++k) {
         p2 = scale->map(Point(x[k], y[k]));
         gc.set_width(line_width);
+        gc.set_antialias(line_antialias);
         gc.draw_line(p1, p2, line_color);
+
         gc.set_width(point_stroke_width);
+        gc.set_antialias(point_antialias);
         gc.draw_circle(p1.x(), p1.y(), point_radius,
                        point_fill_color, point_stroke_color);
         p1 = p2;

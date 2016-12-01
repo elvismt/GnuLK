@@ -36,6 +36,7 @@ public:
        , left_margin(20), right_margin(20)
        , top_margin(20), bottom_margin(20)
        , x_padding(0.02), y_padding(0.02)
+       , on_error(false)
        , zoom_rect_color(0x6F6F6FFF)
        , mouse_moving(false)
        , mouse_mode(XYScale::MOUSE_TRANSLATES)
@@ -50,15 +51,20 @@ public:
 
     void translate_mouse_event(const MouseEvent &event);
 
+    void position_axis();
+
 
     double left_margin, right_margin;
     double top_margin, bottom_margin;
     double x_padding, y_padding;
 
+    bool on_error;
     Color zoom_rect_color;
     bool mouse_moving;
     XYScale::MouseMode mouse_mode;
     Point zoom_p1, zoom_p2;
+
+    PlotAxis *axis[XYScale::AXIS_COUNT];
 
     double fig_x_min, fig_x_max;
     double fig_y_min, fig_y_max;

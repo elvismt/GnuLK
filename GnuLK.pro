@@ -39,7 +39,9 @@ HEADERS += \
     src/GnuLK/Util/Array.h \
     src/GnuLK/Util/ArrayData.h \
     src/GnuLK/Draw/Chart.h \
-    src/GnuLK/Draw/Chart_p.h
+    src/GnuLK/Draw/Chart_p.h \
+    src/GnuLK/Draw/PlotAxis.h \
+    src/GnuLK/Draw/PlotAxis_p.h
 
 SOURCES += \
     Test.cpp \
@@ -51,4 +53,5 @@ SOURCES += \
     src/GnuLK/Draw/FigureItem.cpp \
     src/GnuLK/Draw/XYScale.cpp \
     src/GnuLK/Draw/XYSeries.cpp \
-    src/GnuLK/Draw/Chart.cpp
+    src/GnuLK/Draw/Chart.cpp \
+    src/GnuLK/Draw/PlotAxis.cpp

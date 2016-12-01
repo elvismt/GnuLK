@@ -35,7 +35,10 @@ public:
         : FigureViewPrivate(publ)
     { }
 
+    FigureScale* create_default_scale();
 
+
+    Vector<Vector<FigureScale*> > scales;
     List<FigureItem*> item_list;
     List<FigureScale*> scale_list;
 };

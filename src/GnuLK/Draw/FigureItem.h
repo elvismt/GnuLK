@@ -45,6 +45,8 @@ public:
     bool visible() const;
     void set_visible(bool visible);
 
+    bool rescalable() const;
+
     virtual Rect figure_rect() const = 0;
     virtual Rect data_rect() const = 0;
 

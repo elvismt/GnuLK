@@ -20,6 +20,7 @@
 
 #include <GnuLK/Draw/XYScale_p.h>
 #include <GnuLK/Draw/FigureItem.h>
+#include <GnuLK/Draw/XYSeries.h>
 #include <cmath>
 
 GNULK_BEGIN_NAMESPACE
@@ -29,6 +30,35 @@ XYScale::XYScale(const String &name)
 {
     GNULK_PUBLIC(XYScale);
     m->name = name;
+
+    m->axis[AXIS_BOTTOM] = new PlotAxis(
+        "BottomAxis",
+        PlotAxis::HORIZONTAL,
+        PlotAxis::EVERITHING
+    );
+
+    m->axis[AXIS_LEFT] = new PlotAxis(
+        "LeftAxis",
+        PlotAxis::VERTICAL,
+        PlotAxis::EVERITHING
+    );
+
+    m->axis[AXIS_TOP] = new PlotAxis(
+        "TopAxis",
+        PlotAxis::HORIZONTAL,
+        PlotAxis::EVERITHING
+    );
+
+    m->axis[AXIS_RIGHT] = new PlotAxis(
+        "RightAxis",
+        PlotAxis::VERTICAL,
+        PlotAxis::EVERITHING
+    );
+
+    for (auto axis : m->axis) {
+        axis->set_scale(this);
+    }
+    rescale();
 }
 
 
@@ -79,6 +109,7 @@ Point XYScale::unmap(const Point &p) const {
 void XYScale::rescale() {
     GNULK_PUBLIC(XYScale);
 
+    m->on_error = false;
     if (m->item_list.size() == 0) {
         set_x_range(0.0, 1.0);
         set_y_range(0.0, 1.0);
@@ -87,8 +118,23 @@ void XYScale::rescale() {
 
     auto iter = m->item_list.begin();
     auto end = m->item_list.end();
-    FigureItem *item = *iter++;
+    FigureItem *item = *iter;
     Rect item_rect = item->data_rect();
+
+    bool some_rescales = false;
+    while (iter != end) {
+        if (item->rescalable() == true) {
+            some_rescales = true;
+            break;
+        } else {
+            item = *iter++;
+        }
+    }
+    if (some_rescales == false) {
+        set_x_range(0.0, 1.0);
+        set_y_range(0.0, 1.0);
+        return;
+    }
 
     m->dat_x_min = item_rect.left();
     m->dat_x_max = item_rect.right();
@@ -97,20 +143,30 @@ void XYScale::rescale() {
 
     while (iter != end) {
         item = *iter++;
-        item_rect = item->data_rect();
+        if (item->rescalable() == true) {
+            item_rect = item->data_rect();
 
-        if (item_rect.left() < m->dat_x_min) {
-            m->dat_x_min = item_rect.left();
+            if (item_rect.left() < m->dat_x_min) {
+                m->dat_x_min = item_rect.left();
+            }
+            if (item_rect.right() > m->dat_x_max) {
+                m->dat_x_max = item_rect.right();
+            }
+            if (item_rect.top() < m->dat_y_min) {
+                m->dat_y_min = item_rect.top();
+            }
+            if (item_rect.bottom() > m->dat_y_max) {
+                m->dat_y_max = item_rect.bottom();
+            }
         }
-        if (item_rect.right() > m->dat_x_max) {
-            m->dat_x_max = item_rect.right();
-        }
-        if (item_rect.top() < m->dat_y_min) {
-            m->dat_y_min = item_rect.top();
-        }
-        if (item_rect.bottom() > m->dat_y_max) {
-            m->dat_y_max = item_rect.bottom();
-        }
+    }
+
+    if (!std::isfinite(m->dat_x_min) ||
+        !std::isfinite(m->dat_x_max) ||
+        !std::isfinite(m->dat_y_min) ||
+        !std::isfinite(m->dat_y_max) )
+    {
+        m->on_error = true;
     }
 
     m->apply_padding();
@@ -147,6 +203,11 @@ void XYScalePrivate::apply_padding() {
 void XYScale::draw(const Rect &rect, Graphics &gc) {
     GNULK_PUBLIC(XYScale);
 
+    if (m->on_error == true) {
+        m->inform_figure_error();
+        return;
+    }
+
     /* restrict drawing to within the horizontal margin */
     m->fig_x_min = rect.left() + m->left_margin;
     m->fig_x_max = rect.right() - m->right_margin;
@@ -174,6 +235,28 @@ void XYScale::draw(const Rect &rect, Graphics &gc) {
     /* return gc in the same state it has entered
      * this method */
     gc.restore();
+
+    m->position_axis();
+    for (auto axis : m->axis) {
+        if (axis->visible()) {
+            axis->draw(gc);
+        }
+    }
+}
+
+
+void XYScalePrivate::position_axis() {
+    axis[XYScale::AXIS_BOTTOM]->set_range(dat_x_min, dat_x_max);
+    axis[XYScale::AXIS_BOTTOM]->set_anchor(dat_y_min);
+
+    axis[XYScale::AXIS_LEFT]->set_range(dat_y_min, dat_y_max);
+    axis[XYScale::AXIS_LEFT]->set_anchor(dat_x_min);
+
+    axis[XYScale::AXIS_TOP]->set_range(dat_x_min, dat_x_max);
+    axis[XYScale::AXIS_TOP]->set_anchor(dat_y_max);
+
+    axis[XYScale::AXIS_RIGHT]->set_range(dat_y_min, dat_y_max);
+    axis[XYScale::AXIS_RIGHT]->set_anchor(dat_x_max);
 }
 
 
@@ -312,6 +395,17 @@ void XYScale::set_y_range(double min, double max) {
     m->dat_y_min = min;
     m->dat_y_max = max;
     m->dat_height = max - min;
+}
+
+
+XYSeries* XYScale::plot(const Array1D &x,
+                        const Array1D &y,
+                        const char *style,
+                        const String &name)
+{
+    XYSeries *series = new XYSeries(x, y, style, name);
+    add(series);
+    return series;
 }
 
 GNULK_END_NAMESPACE

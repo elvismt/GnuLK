@@ -18,58 +18,44 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GNULK_XYSERIES_P_H
-#define GNULK_XYSERIES_P_H
+#ifndef GNULK_PLOTAXIS_P_H
+#define GNULK_PLOTAXIS_P_H
 
-#include <GnuLK/Draw/XYSeries.h>
+#include <GnuLK/Draw/PlotAxis.h>
 #include <GnuLK/Draw/FigureItem_p.h>
 
 GNULK_BEGIN_NAMESPACE
 
-class XYSeriesPrivate
-   : public FigureItemPrivate
+class PlotAxisPrivate
+    : public FigureItemPrivate
 {
 public:
 
-    XYSeriesPrivate(XYSeries *publ)
-       : FigureItemPrivate(publ)
-       , line_antialias(true)
-       , line_color(Color::BLUE)
-       , line_width(2.0)
-       , point_antialias(true)
-       , point_stroke_color(Color::BLUE)
-       , point_fill_color(Color::RED)
-       , point_radius(2.8)
-       , point_stroke_width(1.1)
-       , point_symbol(XYSeries::CIRCLES)
+
+    PlotAxisPrivate(PlotAxis *publ)
+        : FigureItemPrivate(publ)
+        , component(PlotAxis::EVERITHING)
+        , line_antialias(false)
+        , line_color(Color::BLACK)
+        , line_width(1.0)
     { }
 
 
-    void check_ranges();
     void draw_line(Graphics &gc);
-    void draw_circles(Graphics &gc);
-    void draw_line_circles(Graphics &gc);
 
 
+    PlotAxis::Component component;
     bool line_antialias;
     Color line_color;
     double line_width;
 
-    bool point_antialias;
-    Color point_stroke_color;
-    Color point_fill_color;
-    double point_radius;
-    double point_stroke_width;
-    uint32_t point_symbol;
+    double min, max;
+    double anchor;
 
-    Array1D x;
-    Array1D y;
-    uint32_t point_count;
+    PlotAxis::Orientation orientation;
 
-    double x_min, x_max;
-    double y_min, y_max;
 };
 
 GNULK_END_NAMESPACE
 
-#endif // GNULK_XYSERIES_P_H
+#endif // GNULK_PLOTAXIS_P_H

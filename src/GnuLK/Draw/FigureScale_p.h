@@ -42,10 +42,16 @@ public:
     { }
 
 
-    inline
-    void inform_figure_change() {
+    inline void inform_figure_change() {
         if (figure != nullptr) {
             figure->inform_look_change(nullptr);
+        }
+    }
+
+
+    inline void inform_figure_error() {
+        if (figure != nullptr) {
+            figure->inform_error();
         }
     }
 

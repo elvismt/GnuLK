@@ -53,6 +53,12 @@ bool FigureItem::visible() const {
 }
 
 
+bool FigureItem::rescalable() const {
+    GNULK_PUBLIC(const FigureItem);
+    return m->rescalable;
+}
+
+
 void FigureItem::set_visible(bool visible) {
     GNULK_PUBLIC(FigureItem);
     m->visible = visible;

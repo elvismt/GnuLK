@@ -25,16 +25,13 @@ int main()
 {
     Chart chart;
 
-    auto x = arange(0.0, 2.0*M_PI, 0.1);
-    chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
-        x = sin(0.8*k) + 0.004*k*k;
-    }), "kor");
+    auto x = arange(0.0, 2.0*M_PI, 0.2);
 
-    chart.plot(x, array(x.size(), [&](uint32_t k, double &x) {
-        x = cos(0.4*k) + 0.002*k*k;
-    }), "kog");
-
+    chart.subplots(2, 1);
+    chart(0,0)->plot(x, sin(x), "kor");
+    chart(1,0)->plot(x, cos(x), "kob");
     chart.show();
+
     Window::run();
     return 0;
 }

@@ -22,6 +22,13 @@
 #define GNULK_XYSCALE_H
 
 #include <GnuLK/Draw/FigureScale.h>
+#include <GnuLK/Draw/PlotAxis.h>
+#include <GnuLK/Util/Array.h>
+
+GNULK_BEGIN_NAMESPACE
+class XYSeries;
+GNULK_END_NAMESPACE
+
 
 GNULK_BEGIN_NAMESPACE
 
@@ -37,15 +44,24 @@ public:
     };
 
 
+    enum Axis: uint32_t {
+        AXIS_BOTTOM,
+        AXIS_LEFT,
+        AXIS_TOP,
+        AXIS_RIGHT,
+        AXIS_COUNT
+    };
+
+
     XYScale(const String &name="scale");
 
-   virtual Rect figure_rect() const;
-   virtual Rect data_rect() const;
+    virtual Rect figure_rect() const;
+    virtual Rect data_rect() const;
 
-   virtual Point map(const Point &p) const;
-   virtual Point unmap(const Point &p) const;
+    virtual Point map(const Point &p) const;
+    virtual Point unmap(const Point &p) const;
 
-   virtual void rescale();
+    virtual void rescale();
 
     void set_x_range(double min, double max);
     void set_y_range(double min, double max);
@@ -55,6 +71,12 @@ public:
 
     MouseMode mouse_mode() const;
     void set_mouse_mode(MouseMode mode);
+
+
+    virtual XYSeries* plot(const Array1D &x,
+                           const Array1D &y,
+                           const char *style="bor",
+                           const String &name="series");
 
 
 protected:
