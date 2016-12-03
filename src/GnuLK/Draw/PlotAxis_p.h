@@ -35,13 +35,15 @@ public:
     PlotAxisPrivate(PlotAxis *publ)
         : FigureItemPrivate(publ)
         , component(PlotAxis::EVERITHING)
-        , line_antialias(false)
-        , line_color(Color::BLACK)
-        , line_width(1.0)
+        , line_antialias(true)
+        , line_color(0x3F3F3FFF)
+        , line_width(2.0)
     { }
 
 
     void draw_line(Graphics &gc);
+
+    void draw_ticks(Graphics &gc);
 
 
     PlotAxis::Component component;

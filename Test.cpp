@@ -25,11 +25,18 @@ int main()
 {
     Chart chart;
 
-    auto x = arange(0.0, 2.0*M_PI, 0.2);
+    auto x = arange(0.0, 2.0*M_PI, 0.1);
 
-    chart.subplots(2, 1);
-    chart(0,0)->plot(x, sin(x), "kor");
-    chart(1,0)->plot(x, cos(x), "kob");
+    auto s = array(x.size(), [&](int i, double &y) {
+        y = sin(6*x[i]) + 0.2*x[i]*x[i];
+    });
+
+    auto c = array(x.size(), [&](int i, double &y) {
+        y = cos(6*x[i]) + 0.4*x[i]*x[i];
+    });
+
+    chart.plot(x, s, "kor");
+    chart.plot(x, c, "kog");
     chart.show();
 
     Window::run();

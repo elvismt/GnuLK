@@ -66,6 +66,10 @@ void PlotAxis::draw(Graphics &gc) {
 
     if (m->component & LINE) {
         m->draw_line(gc);
+        if (m->component & TICKS_DOWN ||
+            m->component & TICKS_UP) {
+            m->draw_ticks(gc);
+        }
     }
 }
 
@@ -84,6 +88,11 @@ void PlotAxisPrivate::draw_line(Graphics &gc) {
     gc.set_antialias(line_antialias);
     gc.set_width(line_width);
     gc.draw_line(p1, p2, line_color);
+}
+
+
+void PlotAxisPrivate::draw_ticks(Graphics &gc) {
+
 }
 
 GNULK_END_NAMESPACE

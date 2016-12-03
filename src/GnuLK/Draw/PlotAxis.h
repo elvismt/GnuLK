@@ -43,7 +43,9 @@ public:
 
     enum Component: uint32_t {
         EVERITHING     = 0xFFFFFFF,
-        LINE           = 0x00000001
+        LINE           = 0x00000001,
+        TICKS_DOWN     = 0x00000002,
+        TICKS_UP       = 0x00000004
     };
 
 

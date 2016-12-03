@@ -31,7 +31,7 @@ class GNULK_EXPORT Chart
 public:
 
     Chart(const String &title="GnuLK",
-          int width=600, int height=500);
+          int width=450, int height=350);
 
 
     virtual XYSeries *plot(const Array1D &x,

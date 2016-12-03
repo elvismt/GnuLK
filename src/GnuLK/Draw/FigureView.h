@@ -34,7 +34,7 @@ class GNULK_EXPORT FigureView
 public:
 
     FigureView(const String &title="GnuLK",
-               int width=600, int height=500);
+               int width=450, int height=350);
 
     Figure* figure() const;
 
